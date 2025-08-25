@@ -1,0 +1,21 @@
+# Entorno virtual
+venv/
+.env
+
+#Archivos compilados
+__pycache__/
+*.pyc
+
+#Archivos de bd
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+#Archivos estáticos generados
+/staticfiles/
