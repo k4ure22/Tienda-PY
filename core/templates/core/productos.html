@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Productos</title>
+<link rel="stylesheet" href="{% static 'core/productos.css' %}">
+</head>
+<body>
+  <!-- Barra lateral -->
+  <aside class="sidebar">
+    <h2>Computadores</h2>
+    <nav>
+      <ul>
+        <li><a href="{% url 'productos' %}">PRODUCTOS</a></li>
+        <li><a href="{% url 'crear' %}">Crear</a></li>
+        <li><a href="{% url 'inventario' %}">Inventario</a></li>
+      </ul>
+    </nav>
+
+    <!-- Zona inferior de la barra lateral -->
+    <div class="sidebar-bottom">
+      <img src="imagen1.png" alt="Imagen lateral" class="icon">
+      <button>Botón 1</button>
+      <button>Botón 2</button>
+    </div>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="content">
+    <h1>Productos</h1>
+
+    <!-- Recientes -->
+    <section>
+      <h2>Recientes</h2>
+      <div class="scroll-x">
+        <article class="card">
+          <img src="producto1.png" alt="Producto reciente">
+          <button>Acción</button>
+        </article>
+        <article class="card">
+          <img src="producto2.png" alt="Producto reciente">
+          <button>Acción</button>
+        </article>
+        <article class="card">
+          <img src="producto3.png" alt="Producto reciente">
+          <button>Acción</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- Favoritos -->
+    <section>
+      <h2>Favoritos</h2>
+      <div class="scroll-x">
+        <article class="card">
+          <img src="favorito1.png" alt="Producto favorito">
+          <button>Acción</button>
+        </article>
+        <article class="card">
+          <img src="favorito2.png" alt="Producto favorito">
+          <button>Acción</button>
+        </article>
+        <article class="card">
+          <img src="favorito3.png" alt="Producto favorito">
+          <button>Acción</button>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
