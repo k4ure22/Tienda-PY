@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ producto.marca }} {{ producto.modelo }}</title>
+  <link rel="stylesheet" href="{% static 'core/productos.css' %}">
+</head>
+<body>
+  <header class="header">
+    <h1>{{ producto.marca }} {{ producto.modelo }}</h1>
+    <a href="{% url 'productos' %}" class="btn-volver">⬅ Volver</a>
+  </header>
+
+  <main class="detalle-container">
+    <div class="detalle-imagen">
+      {% if producto.imagen %}
+        <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}">
+      {% else %}
+        <img src="{% static 'core/img/default.png' %}" alt="Sin imagen">
+      {% endif %}
+    </div>
+
+    <div class="detalle-info">
+      <h2>Especificaciones</h2>
+      <ul>
+        <li><strong>Marca:</strong> {{ producto.marca }}</li>
+        <li><strong>Modelo:</strong> {{ producto.modelo }}</li>
+        <li><strong>Almacenamiento:</strong> {{ producto.almacenamiento }}</li>
+        <li><strong>RAM:</strong> {{ producto.ram }}</li>
+        <li><strong>Procesador:</strong> {{ producto.procesador }}</li>
+        <li><strong>Color:</strong> {{ producto.color|default:"No especificado" }}</li>
+        <li><strong>Serial:</strong> {{ producto.serial }}</li>
+        <li><strong>Precio:</strong> ${{ producto.precio|floatformat:2 }}</li>
+      </ul>
+
+      {% if producto.detalles %}
+        <div class="descripcion">
+          <h3>Detalles adicionales</h3>
+          <p>{{ producto.detalles }}</p>
+        </div>
+      {% endif %}
+
+      <div class="acciones">
+  <button class="facturar">💵 Facturar</button>
+  <button class="estrella">⭐ Favorito</button>
+</div>
+
+<div class="crud-botones">
+  <a href="{% url 'editar_producto' producto.id %}" class="btn-editar">✏️ Editar</a>
+  <a href="{% url 'eliminar_producto' producto.id %}" class="btn-eliminar">🗑 Eliminar</a>
+</div>
+
+
+    </div>
+  </main>
+</body>
+</html>

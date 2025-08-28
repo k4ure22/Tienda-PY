@@ -1,83 +1,99 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Registro de Computador</title>
   <link rel="stylesheet" href="{% static 'core/productos.css' %}">
+  <script>
+    function mostrarOtro() {
+      const select = document.getElementById("marca");
+      const otroInput = document.getElementById("otra-marca-div");
+      if (select.value === "Otro") {
+        otroInput.style.display = "block";
+      } else {
+        otroInput.style.display = "none";
+      }
+    }
+  </script>
 </head>
 <body>
-   <!-- Barra lateral -->
   <aside class="sidebar">
     <h2>Computadores</h2>
-     <nav>
+    <nav>
       <ul>
         <li><a href="{% url 'productos' %}">Productos</a></li>
         <li><a href="{% url 'crear' %}">CREAR</a></li>
         <li><a href="{% url 'inventario' %}">Inventario</a></li>
       </ul>
     </nav>
-
-    <!-- Zona inferior de la barra lateral -->
     <div class="sidebar-bottom">
-      <img src="imagen1.png" alt="foto de perfil" class="icon">
+      <img src="{% static 'core/img/prom1.png' %}" alt="foto de perfil" class="icon">
       <button>nombre</button>
-      <button>cerrar sesion </button>
+      <button>cerrar sesion</button>
     </div>
   </aside>
-    <main>
-  <h1>Registro de Computador</h1>
-  
-  <form method="POST" action="">
-    {% csrf_token %}
-    
-    <label for="marca">Marca:</label>
-    <select name="marca" id="marca" required>
-      <option value="">Seleccione...</option>
-      <option value="MacBook">MacBook</option>
-      <option value="HP">HP</option>
-      <option value="Asus">Asus</option>
-      <option value="Lenovo">Lenovo</option>
-      <option value="Dell">Dell</option>
-      <option value="Acer">Acer</option>
-      <option value="Otro">Otro</option>
-    </select>
-    <br><br>
-    
-    <label for="identificacion">Identificación (Serial o código interno):</label>
-    <input type="text" name="identificacion" id="identificacion" required>
-    <br><br>
 
-    <label for="modelo">Modelo:</label>
-    <input type="text" name="modelo" id="modelo" required>
-    <br><br>
+  <main>
+    <h1>Registro de Computador</h1>
+    <form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
 
-    <label for="color">Color:</label>
-    <input type="text" name="color" id="color">
-    <br><br>
+  <label for="marca">Marca:</label>
+  <select name="marca" id="marca" onchange="mostrarOtro()" required>
+    <option value="">Seleccione...</option>
+    {% for m in marcas %}
+      <option value="{{ m }}">{{ m }}</option>
+    {% endfor %}
+    <option value="Otro">Otro</option>
+  </select>
 
-    <label for="ram">RAM (GB):</label>
-    <input type="number" name="ram" id="ram" min="1" required>
-    <br><br>
+  <div id="otra-marca-div" style="display:none; margin-top:10px;">
+    <label for="otra_marca">Escriba la marca:</label>
+    <input type="text" name="otra_marca" id="otra_marca">
+  </div>
 
-    <label for="almacenamiento">Almacenamiento (GB):</label>
-    <input type="number" name="almacenamiento" id="almacenamiento" min="1" required>
-    <br><br>
+  <label for="serial">Identificación (Serial o código interno):</label>
+  <input type="text" name="serial" id="serial" required>
 
-    <label for="procesador">Procesador:</label>
-    <input type="text" name="procesador" id="procesador" required>
-    <br><br>
+  <label for="modelo">Modelo:</label>
+  <input type="text" name="modelo" id="modelo" required>
 
-    <label for="detalles">Detalles adicionales:</label>
-    <textarea name="detalles" id="detalles" rows="4"></textarea>
-    <br><br>
+  <label for="precio">Precio:</label>
+  <input type="number" name="precio" id="precio" step="0.01" min="0" required>
 
-    <button type="submit">Registrar Computador</button>
-  </form>
+  <label for="color">Color:</label>
+  <input type="text" name="color" id="color">
+
+  <label for="ram">RAM (GB):</label>
+  <input type="number" name="ram" id="ram" min="1" required>
+
+  <label for="almacenamiento">Almacenamiento (GB):</label>
+  <input type="number" name="almacenamiento" id="almacenamiento" min="1" required>
+
+  <label for="procesador">Procesador:</label>
+  <input type="text" name="procesador" id="procesador" required>
+
+  <label for="detalles">Detalles adicionales:</label>
+  <textarea name="detalles" id="detalles" rows="4"></textarea>
+
+  <label for="imagen">Imagen del computador:</label>
+  <input type="file" name="imagen" id="imagen" accept="image/*">
+
+  <button type="submit">Registrar Computador</button>
+</form>
+<script>
+function mostrarOtro() {
+  const select = document.getElementById("marca");
+  const otroInput = document.getElementById("otra-marca-div");
+  if (select.value === "Otro") {
+    otroInput.style.display = "block";
+  } else {
+    otroInput.style.display = "none";
+  }
+}
+</script>
+
   </main>
 </body>
 </html>
-
-
- 

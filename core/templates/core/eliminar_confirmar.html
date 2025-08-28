@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Eliminar producto</title>
+</head>
+<body>
+  <h1>Eliminar producto</h1>
+
+  <p>¿Estás seguro que deseas eliminar el producto <strong>{{ producto.marca }} {{ producto.modelo }}</strong>?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+    <a href="{% url 'detalle_producto' producto.id %}">Cancelar</a>
+  </form>
+</body>
+</html>

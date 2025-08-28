@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil de Usuario</title>
+  <link rel="stylesheet" href="">
+</head>
+<body>
+    <aside class="sidebar">
+  <h2>Computadores</h2>
+  <nav>
+    <ul>
+      <li><a href="{% url 'productos' %}">PRODUCTOS</a></li>
+      <li><a href="{% url 'crear' %}">Crear</a></li>
+      <li><a href="{% url 'inventario' %}">Inventario</a></li>
+      <li><a href="{% url 'perfil_usuario' %}">Registrar Usuario</a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-bottom">
+    {% if usuario %}
+      <img src="{{ usuario.foto_perfil.url }}" alt="Foto de perfil" class="icon">
+      <a href="{% url 'perfil_usuario' usuario.id %}">
+        <button>{{ usuario.nombre }}</button>
+      </a>
+    {% else %}
+      <img src="{% static 'core/img/prom1.png' %}" alt="Imagen lateral" class="icon">
+      <a href="{% url 'registro' %}"><button>Registrar Usuario</button></a>
+    {% endif %}
+    <a href="{% url 'logout' %}"><button>Cerrar Sesión</button></a>
+  </div>
+</aside>
+  <div class="perfil-container">
+    <!-- Botón cerrar sesión -->
+    <a href="{% url 'logout' %}" class="logout-btn">Cerrar sesión</a>
+
+    <h1 class="perfil-titulo">Perfil de {{ usuario.nombre }}</h1>
+
+    <div class="perfil-foto">
+      <img src="{{ usuario.foto_perfil.url }}" alt="Foto de perfil de {{ usuario.nombre }}">
+    </div>
+
+  
+    <div class="perfil-info">
+      <p class="perfil-item">
+        <span class="perfil-label">Nombre:</span> 
+        <span class="perfil-valor">{{ usuario.nombre }}</span>
+        <a href="#" class="perfil-editar">✏️</a>
+      </p>
+
+      <p class="perfil-item">
+        <span class="perfil-label">Edad:</span> 
+        <span class="perfil-valor">{{ usuario.edad }}</span>
+        <a href="#" class="perfil-editar">✏️</a>
+      </p>
+
+      <p class="perfil-item">
+        <span class="perfil-label">Cargo:</span> 
+        <span class="perfil-valor">{{ usuario.cargo }}</span>
+        <a href="#" class="perfil-editar">✏️</a>
+      </p>
+
+      <p class="perfil-item">
+        <span class="perfil-label">Correo:</span> 
+        <span class="perfil-valor">{{ usuario.correo }}</span>
+        <a href="#" class="perfil-editar">✏️</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

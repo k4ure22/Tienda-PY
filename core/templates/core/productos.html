@@ -4,67 +4,76 @@
 <head>
   <meta charset="UTF-8">
   <title>Productos</title>
-<link rel="stylesheet" href="{% static 'core/productos.css' %}">
+  <link rel="stylesheet" href="{% static 'core/productos.css' %}">
 </head>
 <body>
-  <!-- Barra lateral -->
-  <aside class="sidebar">
-    <h2>Computadores</h2>
-    <nav>
-      <ul>
-        <li><a href="{% url 'productos' %}">PRODUCTOS</a></li>
-        <li><a href="{% url 'crear' %}">Crear</a></li>
-        <li><a href="{% url 'inventario' %}">Inventario</a></li>
-      </ul>
-    </nav>
+<aside class="sidebar">
+  <h2>Computadores</h2>
+   <form action="{% url 'productos' %}" method="get" class="search-form">
+      <input type="text" name="q" placeholder="Buscar productos..." required>
+      <button type="submit">🔍</button>
+    </form>
+      <div class="acciones">
+    <a href="{% url 'cargar_excel' %}">
+      <button>Cargar desde Excel</button>
+    </a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="{% url 'productos' %}">PRODUCTOS</a></li>
+      <li><a href="{% url 'crear' %}">Crear</a></li>
+      <li><a href="{% url 'inventario' %}">Inventario</a></li>
+      <li><a href=""></a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-bottom">
+  {% if request.user.is_authenticated %}
+    {% if request.user.foto_perfil %}
+      <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="icon">
+    {% else %}
+      <img src="{% static 'core/img/default.png' %}" alt="Sin foto" class="icon">
+    {% endif %}
+    <a href="{% url 'perfil_usuario' request.user.email %}">
+      <button>{{ request.user.nombre }}</button>
+    </a>
+  {% else %}
+    <img src="{% static 'core/img/prom1.png' %}" alt="Imagen lateral" class="icon">
+    <a href="{% url 'registro' %}"><button>Registrar Usuario</button></a>
+  {% endif %}
+  <a href="{% url 'logout' %}"><button>Cerrar Sesión</button></a>
+</div>
 
-    <!-- Zona inferior de la barra lateral -->
-    <div class="sidebar-bottom">
-      <img src="imagen1.png" alt="Imagen lateral" class="icon">
-      <button>Botón 1</button>
-      <button>Botón 2</button>
-    </div>
-  </aside>
 
-  <!-- Contenido principal -->
+</aside>
+
+  <header class="header">
+   
+  </header>
+
   <main class="content">
     <h1>Productos</h1>
 
-    <!-- Recientes -->
     <section>
-      <h2>Recientes</h2>
-      <div class="scroll-x">
-        <article class="card">
-          <img src="producto1.png" alt="Producto reciente">
-          <button>Acción</button>
-        </article>
-        <article class="card">
-          <img src="producto2.png" alt="Producto reciente">
-          <button>Acción</button>
-        </article>
-        <article class="card">
-          <img src="producto3.png" alt="Producto reciente">
-          <button>Acción</button>
-        </article>
-      </div>
-    </section>
+          <div class="grid-cards">
+            {% for producto in productos %}
+         <a href="{% url 'detalle_producto' producto.id %}" class="card">
+  {% if producto.imagen %}
+    <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}">
+  {% else %}
+    <img src="{% static 'core/img/default.png' %}" alt="Sin imagen">
+  {% endif %}
+                
+  <h2 class="marca-modelo">{{ producto.marca }} {{ producto.modelo }}</h2>
+  <p class="precio">${{ producto.precio|floatformat:2 }}</p>
+                
+  <p><strong>Almacenamiento:</strong> {{ producto.almacenamiento }} &nbsp;|&nbsp; <strong>RAM:</strong> {{ producto.ram }}</p>
+  <p><strong>Procesador:</strong> {{ producto.procesador }}</p>
+  <p class="serial"><small><strong>Serial:</strong> {{ producto.serial }}</small></p>
+</a>
 
-    <!-- Favoritos -->
-    <section>
-      <h2>Favoritos</h2>
-      <div class="scroll-x">
-        <article class="card">
-          <img src="favorito1.png" alt="Producto favorito">
-          <button>Acción</button>
-        </article>
-        <article class="card">
-          <img src="favorito2.png" alt="Producto favorito">
-          <button>Acción</button>
-        </article>
-        <article class="card">
-          <img src="favorito3.png" alt="Producto favorito">
-          <button>Acción</button>
-        </article>
+        {% empty %}
+        <p>No hay productos registrados.</p>
+        {% endfor %}
       </div>
     </section>
   </main>

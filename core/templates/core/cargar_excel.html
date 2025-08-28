@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cargar productos desde Excel</title>
+</head>
+<body>
+  <h1>Subir archivo Excel</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="excel_file" accept=".xlsx,.xls" required>
+    <button type="submit">Subir</button>
+    <a href="{% url 'productos' %}">Cancelar</a>
+  </form>
+</body>
+</html>
