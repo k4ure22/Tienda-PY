@@ -1,4 +1,6 @@
 {% load static %}
+    {% csrf_token %}
+  
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -43,7 +45,7 @@
 </form>
 
 
-    <p>¿Ya tienes una cuenta? <a href="{% url 'inicioSesion' %}">Inicia sesión aquí</a></p>
+    <p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a></p>
     </main>
     <footer>
 
@@ -53,4 +55,4 @@
     <script src="{% static 'core/Scripts/registro.js' %}" defer></script>
 
 </body>
-</html>
+</html> 

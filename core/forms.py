@@ -1,5 +1,5 @@
 from django import forms
-from .models import Producto, Usuario
+from .models import Producto, Usuario, SolicitudRegistro
 
 class ProductoForm(forms.ModelForm):
     class Meta:
@@ -18,6 +18,30 @@ class ProductoForm(forms.ModelForm):
         ]
 
 class UsuarioForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+
     class Meta:
         model = Usuario
-        fields = ["nombre", "edad", "cargo", "email", "foto_perfil"]
+        fields = ["nombre", "edad", "cargo", "email", "foto_perfil", "password"]
+
+    def save(self, commit=True):
+        usuario = super().save(commit=False)
+        usuario.set_password(self.cleaned_data["password"])  # encripta la contraseña
+        if commit:
+            usuario.save()
+        return usuario
+
+class SolicitudRegistroForm(forms.ModelForm):
+    class Meta:
+        model = SolicitudRegistro
+        fields = [
+            "nombres", "tipo_identificacion", "numero_identificacion",
+            "edad", "direccion", "correo", "telefono", "cargo"
+        ]
+        widgets = {
+            "tipo_identificacion": forms.Select(choices=[
+                ("CC", "Cédula de Ciudadanía"),
+                ("TI", "Tarjeta de Identidad"),
+                ("CE", "Cédula de Extranjería"),
+            ])
+        }

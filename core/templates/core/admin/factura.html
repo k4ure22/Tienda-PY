@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Factura {{ producto.marca }} {{ producto.modelo }}</title>
+  <link rel="stylesheet" href="{% static 'core/productos.css' %}">
+</head>
+<body>
+  <h1>Factura de Compra</h1>
+
+  <h2>Cliente</h2>
+  <p><strong>Nombre:</strong> {{ cliente.nombre }}</p>
+  <p><strong>Cédula:</strong> {{ cliente.cedula }}</p>
+  <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+
+  <h2>Producto</h2>
+  <p><strong>Marca:</strong> {{ producto.marca }}</p>
+  <p><strong>Modelo:</strong> {{ producto.modelo }}</p>
+  <p><strong>Almacenamiento:</strong> {{ producto.almacenamiento }}</p>
+  <p><strong>RAM:</strong> {{ producto.ram }}</p>
+  <p><strong>Procesador:</strong> {{ producto.procesador }}</p>
+  <p><strong>Color:</strong> {{ producto.color|default:"No especificado" }}</p>
+  <p><strong>Serial:</strong> {{ producto.serial }}</p>
+  <p><strong>Precio:</strong> ${{ producto.precio|floatformat:2 }}</p>
+  {% if producto.imagen %}
+    <img src="{{ producto.imagen.url }}" alt="{{ producto.modelo }}" width="200">
+  {% endif %}
+
+  <h2>Vendedor</h2>
+  <p><strong>Nombre:</strong> {{ vendedor.nombre }}</p>
+  <p><strong>Email:</strong> {{ vendedor.email }}</p>
+</body>
+</html>

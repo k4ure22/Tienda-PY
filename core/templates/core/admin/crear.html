@@ -19,20 +19,31 @@
 </head>
 <body>
   <aside class="sidebar">
-    <h2>Computadores</h2>
-    <nav>
-      <ul>
-        <li><a href="{% url 'productos' %}">Productos</a></li>
-        <li><a href="{% url 'crear' %}">CREAR</a></li>
-        <li><a href="{% url 'inventario' %}">Inventario</a></li>
-      </ul>
-    </nav>
-    <div class="sidebar-bottom">
-      <img src="{% static 'core/img/prom1.png' %}" alt="foto de perfil" class="icon">
-      <button>nombre</button>
-      <button>cerrar sesion</button>
-    </div>
-  </aside>
+  <h2>Computadores</h2>
+   <form action="{% url 'productos' %}" method="get" class="search-form">
+  <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
+  <button type="submit">🔍</button>
+</form>
+
+      <div class="acciones">
+    <a href="{% url 'cargar_excel' %}">
+      <button>Cargar desde Excel</button>
+    </a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="{% url 'productos' %}">Productos</a></li>
+      <li><a href="{% url 'crear' %}">CREAR</a></li>
+      <li><a href=""></a></li>
+    </ul>
+  </nav>
+<div class="sidebar-bottom">
+
+    <img src="{% static 'core/img/user.png' %}" alt="Imagen de usuario" class="icon">
+    <p>Hola, {{ user.username }}</p>
+
+</aside>
+
 
   <main>
     <h1>Registro de Computador</h1>

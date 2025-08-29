@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Facturar {{ producto.marca }} {{ producto.modelo }}</title>
+  <link rel="stylesheet" href="{% static 'core/productos.css' %}">
+</head>
+<body>
+  <h1>Facturar {{ producto.marca }} {{ producto.modelo }}</h1>
+  <form method="post">
+    {% csrf_token %}
+    <label>Nombres del cliente:</label>
+    <input type="text" name="nombre" required>
+    <br><br>
+
+    <label>Cédula del cliente:</label>
+    <input type="text" name="cedula" required>
+    <br><br>
+
+    <label>Teléfono del cliente:</label>
+    <input type="text" name="telefono" required>
+    <br><br>
+
+    <button type="submit">Generar Factura</button>
+  </form>
+</body>
+</html>

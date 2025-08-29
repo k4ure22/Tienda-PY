@@ -8,9 +8,9 @@
 <body>
   <img src="" alt="Fondo" />
   <header>
-      <img src="logo.png" alt="Logo de la empresa" />
+      <!--<img src="logo.png" alt="Logo de la empresa" />-->
       <h1>Iniciar sesión</h1>
-    </header>
+  </header>
   <main>
     <section>
       <form action="{% url 'login' %}" method="post">
@@ -26,16 +26,18 @@
         </div>
 
         <div>
-          <a href="{% url 'productos' %}">Entrar</a>
+          <button type="submit">Entrar</button>
         </div>
-
-
       </form>
-
       <div>
-        <a href="{% url 'registro' %}">Registrarme</a>
+        <label for="solicitar registro">¿Aún no tienes una cuenta?</label>
+        <a href="{% url 'solicitar_registro' %}">Solicita una YA!</a>
       </div>
     </section>
   </main>
+  {% if error %}
+  <p style="color:red;">{{ error }}</p>
+{% endif %}
+
 </body>
 </html>

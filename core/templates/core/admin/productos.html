@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Productos</title>
+  <link rel="stylesheet" href="{% static 'core/productos.css' %}">
+</head>
+<body>
+<aside class="sidebar">
+  <h2>Computadores</h2>
+   <form action="{% url 'productos' %}" method="get" class="search-form">
+  <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
+  <button type="submit">🔍</button>
+</form>
+
+      <div class="acciones">
+    <a href="{% url 'cargar_excel' %}">
+      <button>Cargar desde Excel</button>
+    </a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="{% url 'productos' %}">PRODUCTOS</a></li>
+      <li><a href="{% url 'crear' %}">Crear</a></li>
+      
+    </ul>
+  </nav>
+  <a href="{% url 'logout' %}"><button>Cerrar Sesión</button></a>
+</div>
+
+
+
+</aside>
+
+  <header class="header">
+   
+  </header>
+
+  <main class="content">
+    <h1>Productos</h1>
+
+    <section>
+  {% regroup productos by marca as productos_por_marca %}
+
+  {% for grupo in productos_por_marca %}
+    <h2 class="titulo-marca">{{ grupo.grouper }}</h2>
+    <div class="grid-cards">
+      {% for producto in grupo.list %}
+        <a href="{% url 'detalle_producto' producto.id %}" class="card">
+          {% if producto.imagen %}
+            <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}">
+          {% else %}
+            <img src="{% static 'core/img/default.png' %}" alt="Sin imagen">
+          {% endif %}
+
+          <h2 class="marca-modelo">{{ producto.marca }} {{ producto.modelo }}</h2>
+          <p class="precio">${{ producto.precio|floatformat:2 }}</p>
+          <p><strong>Almacenamiento:</strong> {{ producto.almacenamiento }} &nbsp;|&nbsp; <strong>RAM:</strong> {{ producto.ram }}</p>
+          <p><strong>Procesador:</strong> {{ producto.procesador }}</p>
+          <p class="serial"><small><strong>Serial:</strong> {{ producto.serial }}</small></p>
+        </a>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</section>
+
+  </main>
+</body>
+</html>

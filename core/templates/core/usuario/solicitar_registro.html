@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Solicitud de Registro</title>
+</head>
+<body>
+  <h1>Solicitud de Registro de Empleado</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Enviar solicitud</button>
+  </form>
+
+  <a href="{% url 'login' %}">⬅ Volver al login</a>
+</body>
+</html>
