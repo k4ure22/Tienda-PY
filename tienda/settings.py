@@ -7,6 +7,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 AUTH_USER_MODEL = 'core.Usuario'
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -78,7 +83,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "martinmh0722@gmail.com"  
-EMAIL_HOST_PASSWORD = ""  #contraseña de la aplicación
+EMAIL_HOST_PASSWORD = "dnzi knuz jkux adii"  
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 

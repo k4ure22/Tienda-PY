@@ -41,18 +41,14 @@
         </div>
       {% endif %}
 
-      <!--Acciones para cliente -->
       <div class="acciones">
-        <form action="{% url 'add_to_cart' producto.id %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="carrito">🛒 Añadir al carrito</button>
-        </form>
+  <form action="{% url 'comprar' producto.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="comprar">💳 Comprar</button>
+  </form>
+</div>
 
-        <form action="{% url 'comprar' producto.id %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="comprar">💳 Comprar</button>
-        </form>
-      </div>
+
     </div>
   </main>
 </body>

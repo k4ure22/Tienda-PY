@@ -27,8 +27,13 @@
     <img src="{{ producto.imagen.url }}" alt="{{ producto.modelo }}" width="200">
   {% endif %}
 
-  <h2>Vendedor</h2>
+    <h2>Vendedor</h2>
   <p><strong>Nombre:</strong> {{ vendedor.nombre }}</p>
   <p><strong>Email:</strong> {{ vendedor.email }}</p>
+
+  <a href="{% url 'factura_pdf' producto.id %}">Descargar PDF</a>
+    Descargar en PDF
+  </a>
+
 </body>
 </html>

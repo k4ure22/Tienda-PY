@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Solicitud de Compra</title>
+</head>
+<body>
+  <h1>Solicitud de compra para {{ producto.marca }} {{ producto.modelo }}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Confirmar compra</button>
+  </form>
+
+  <a href="{% url 'detalle_producto' producto.id %}">⬅ Volver al producto</a>
+</body>
+</html>

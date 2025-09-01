@@ -23,9 +23,24 @@
     <ul>
       <li><a href="{% url 'productos' %}">PRODUCTOS</a></li>
       <li><a href="{% url 'crear' %}">Crear</a></li>
+      <li><a href="{% url 'solicitudes' %}">🔔</a></li>
       
     </ul>
   </nav>
+ <a href="{% url 'perfil_usuario' request.user.id %}">
+  <div class="sidebar-bottom">
+    {% if request.user.is_authenticated %}
+      {% if request.user.foto_perfil %}
+        <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="icon">
+      {% endif %}
+      <button>{{ request.user.nombre }}</button>
+    {% else %}
+      <img src="{% static 'core/img/prom1.png' %}" alt="Imagen lateral" class="icon">
+      <a href="{% url 'registro' %}"><button>Registrar Usuario</button></a>
+    {% endif %}
+  </div>
+</a>
+
   <a href="{% url 'logout' %}"><button>Cerrar Sesión</button></a>
 </div>
 

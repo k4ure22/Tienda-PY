@@ -5,9 +5,11 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager, Permission
 
 class Usuario(AbstractUser):
     nombre = models.CharField(max_length=100)
-    edad = models.PositiveIntegerField()
+    edad = models.PositiveIntegerField(null=True, blank=True)
     cargo = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
+    direccion = models.CharField(max_length=255, blank=True, null=True)
+    telefono = models.CharField(max_length=20, blank=True, null=True)
     foto_perfil = models.ImageField(upload_to="usuarios/", null=True, blank=True)
 
     USERNAME_FIELD = 'email'
@@ -68,3 +70,15 @@ class SolicitudRegistro(models.Model):
 
     def __str__(self):
         return f"Solicitud de {self.nombres} ({self.cargo})"
+    
+class SolicitudCompra(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cliente_nombre = models.CharField(max_length=150)
+    cliente_cedula = models.CharField(max_length=50)
+    cliente_telefono = models.CharField(max_length=20)
+    cliente_direccion = models.CharField(max_length=255)
+    cliente_correo = models.EmailField()
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Compra de {self.producto.marca} {self.producto.modelo} por {self.cliente_nombre}"

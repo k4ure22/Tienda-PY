@@ -1,50 +1,42 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.http import HttpResponse
-from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Producto, Usuario, Venta, SolicitudRegistro
-from .forms import ProductoForm, UsuarioForm, SolicitudRegistroForm
+from .forms import ProductoForm, UsuarioForm, SolicitudRegistroForm, SolicitudCompraForm
 import pandas as pd
 from django.db.models import Q
 import unicodedata
 from django.core.mail import send_mail
 from django.conf import settings
+from django.template.loader import get_template
+from xhtml2pdf import pisa  
+from django.utils.crypto import get_random_string
+
 
 User = get_user_model()
 
 # ======================
 # SECCIÓN: USUARIOS
 # ======================
-
 def home(request):
     if request.method == "POST":
-        email = request.POST["email"]
-        password = request.POST["password"]
+        email = request.POST.get("email")
+        password = request.POST.get("password")
 
-        try:
-            username = User.objects.get(email=email).username
-        except User.DoesNotExist:
-            return render(
-                request,
-                "core/usuario/inises.html",
-                {"error": "Usuario no registrado"}
-            )
-
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
-            if user.is_staff:
-                return redirect("productos")
-            else:
-                return redirect("index")
-        else:
+            return redirect("perfil_usuario", id=user.id)  
             return render(
                 request,
                 "core/usuario/inises.html",
                 {"error": "Credenciales inválidas"}
             )
-    return render(request, "core/usuario/inises.html")
+
+    return render(request, "core/usuario/productos.html")
+
 
 
 def registro(request):
@@ -86,10 +78,66 @@ def solicitar_registro(request):
             )
             send_mail(asunto, mensaje, settings.DEFAULT_FROM_EMAIL, ["martinmh0722@gmail.com"])
 
-            return render(request, "core/solicitud_exitosa.html")
+            return render(request, "core/usuario/solicitud_exitosa.html")
     else:
         form = SolicitudRegistroForm()
     return render(request, "core/usuario/solicitar_registro.html", {"form": form})
+
+@login_required
+def solicitudes(request):
+    solicitudes_registro = SolicitudRegistro.objects.all().order_by("-id")  
+    solicitudes_compra = Venta.objects.all().order_by("-id")
+
+    return render(request, "core/admin/solicitudes.html", {
+        "solicitudes_registro": solicitudes_registro,
+        "solicitudes_compra": solicitudes_compra,
+    })
+
+@login_required
+def registrar_desde_solicitud(request, solicitud_id):
+    solicitud = get_object_or_404(SolicitudRegistro, id=solicitud_id)
+
+    
+    password = get_random_string(8)
+
+    usuario = Usuario.objects.create_user(
+        username=solicitud.correo,
+        password=password,
+        nombre=solicitud.nombres,
+        email=solicitud.correo,
+        telefono=solicitud.telefono,
+        direccion=solicitud.direccion,
+        cargo=solicitud.cargo,
+    )
+
+   
+    solicitud.delete()
+
+    
+    send_mail(
+        "Registro aprobado",
+        f"Hola {usuario.nombre}, tu registro fue aprobado.\n\n"
+        f"Usuario: {usuario.username}\nContraseña: {password}\n\n"
+        f"Por favor cambia tu contraseña al iniciar sesión.",
+        settings.DEFAULT_FROM_EMAIL,
+        [usuario.email],
+    )
+
+    messages.success(request, f"Se registró a {usuario.nombre} y se envió su contraseña al correo.")
+    return redirect("solicitudes")
+
+@login_required
+def rechazar_solicitud(request, solicitud_id):
+    solicitud = get_object_or_404(SolicitudRegistro, id=solicitud_id)
+
+    if request.method == "POST":
+        solicitud.delete()
+        messages.success(request, "La solicitud ha sido rechazada correctamente.")
+        return redirect("solicitudes")
+
+    return render(request, "core/admin/rechazar_confirmar.html", {"solicitud": solicitud})
+
+
 # ======================
 # SECCIÓN: CLIENTE
 # ======================
@@ -221,6 +269,36 @@ def cargar_excel(request):
 
     return render(request, "core/admin/cargar_excel.html")
 
+def comprar(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)  # ✅ usar producto_id
+
+    if request.method == "POST":
+        form = SolicitudCompraForm(request.POST)
+        if form.is_valid():
+            solicitud = form.save(commit=False)
+            solicitud.producto = producto   # ✅ asignar producto
+            solicitud.save()
+
+            # Enviar correo al admin
+            asunto = f"Nueva solicitud de compra: {producto.marca} {producto.modelo}"
+            mensaje = (
+                f"Se ha registrado una solicitud de compra.\n\n"
+                f"Cliente: {solicitud.cliente_nombre}\n"
+                f"Cédula: {solicitud.cliente_cedula}\n"
+                f"Teléfono: {solicitud.cliente_telefono}\n"
+                f"Dirección: {solicitud.cliente_direccion}\n"
+                f"Correo: {solicitud.cliente_correo}\n"
+                f"Producto: {producto.marca} {producto.modelo}\n"
+                f"Precio: ${producto.precio}\n"
+            )
+            send_mail(asunto, mensaje, settings.DEFAULT_FROM_EMAIL, ["martin102230@gmail.com"])
+
+            return redirect("solicitudes")  # o donde quieras redirigir
+    else:
+        form = SolicitudCompraForm()
+
+    return render(request, "core/cliente/solicitud_compra.html", {"form": form, "producto": producto})
+
 
 # ======================
 # SECCIÓN: FACTURACIÓN
@@ -251,6 +329,39 @@ def facturar_producto(request, producto_id):
     return render(request, "core/admin/facturar_form.html", {"producto": producto})
 
 
+def factura_pdf(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    vendedor = request.user
+
+    # ⚡ Cliente desde la última venta de este producto
+    venta = Venta.objects.filter(producto=producto).last()
+    cliente = {
+        "nombre": venta.cliente_nombre if venta else "N/A",
+        "cedula": venta.cliente_cedula if venta else "N/A",
+        "telefono": venta.cliente_telefono if venta else "N/A"
+    }
+
+    template_path = "core/admin/factura.html"
+    context = {
+        "producto": producto,
+        "cliente": cliente,
+        "vendedor": vendedor
+    }
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="factura_{producto.modelo}.pdf"'
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse("Error al generar PDF", status=500)
+
+    return response
+
+
 # ======================
 # UTILIDADES
 # ======================
@@ -261,3 +372,5 @@ def normalize_text(texto):
         texto = unicodedata.normalize('NFKD', texto).encode('ASCII', 'ignore').decode('utf-8')
         return texto.lower()
     return ''
+
+

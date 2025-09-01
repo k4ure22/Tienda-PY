@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Centro de Solicitudes</title>
+  <link rel="stylesheet" href="{% static 'core/estilos.css' %}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+    .container {
+      display: flex;
+      gap: 30px;
+      padding: 20px;
+    }
+    .card {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<h1>Centro de Notificaciones</h1>
+
+<div class="container">
+
+  <!-- Columna: Solicitudes de Registro -->
+  <div class="card">
+    <h2>Solicitudes de Registro</h2>
+    {% if solicitudes_registro %}
+      <ul>
+        {% for s in solicitudes_registro %}
+         <li>
+  <strong>{{ s.nombres }}</strong> ({{ s.cargo }}) <br>
+  Identificación: {{ s.tipo_identificacion }} {{ s.numero_identificacion }} <br>
+  Correo: {{ s.correo }} <br>
+  Teléfono: {{ s.telefono }} <br>
+  Fecha: {{ s.fecha_solicitud|date:"d/m/Y H:i" }}
+
+  <br>
+  <a href="{% url 'registrar_desde_solicitud' s.id %}">
+    <button>Registrar ahora</button>
+  </a>
+
+  <a href="{% url 'rechazar_solicitud' s.id %}">
+    <button style="background:red; color:white;">Rechazar</button>
+  </a>
+</li>
+<hr>
+
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No hay solicitudes de registro.</p>
+    {% endif %}
+  </div>
+
+  <!-- Columna: Solicitudes de Compra -->
+  <div class="card">
+    <h2>Solicitudes de Compra</h2>
+    {% if solicitudes_compra %}
+      <ul>
+        {% for v in solicitudes_compra %}
+          <li>
+            <strong>{{ v.cliente_nombre }}</strong> - {{ v.producto.marca }} {{ v.producto.modelo }} <br>
+            Cédula: {{ v.cliente_cedula }} <br>
+            Teléfono: {{ v.cliente_telefono }} <br>
+            Fecha: {{ v.fecha|date:"d/m/Y H:i" }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No hay solicitudes de compra.</p>
+    {% endif %}
+  </div>
+
+</div>
+
+</body>
+</html>

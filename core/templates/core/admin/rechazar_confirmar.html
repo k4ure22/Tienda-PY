@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Rechazar Solicitud</title>
+</head>
+<body>
+  <h2>¿Seguro que deseas rechazar la solicitud de {{ solicitud.nombres }}?</h2>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, rechazar</button>
+    <a href="{% url 'solicitudes' %}"><button type="button">Cancelar</button></a>
+  </form>
+</body>
+</html>

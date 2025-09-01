@@ -1,5 +1,5 @@
 from django import forms
-from .models import Producto, Usuario, SolicitudRegistro
+from .models import Producto, Usuario, SolicitudRegistro, SolicitudCompra
 
 class ProductoForm(forms.ModelForm):
     class Meta:
@@ -44,4 +44,16 @@ class SolicitudRegistroForm(forms.ModelForm):
                 ("TI", "Tarjeta de Identidad"),
                 ("CE", "Cédula de Extranjería"),
             ])
+        }
+
+class SolicitudCompraForm(forms.ModelForm):
+    class Meta:
+        model = SolicitudCompra
+        fields = ["cliente_nombre", "cliente_cedula", "cliente_telefono", "cliente_direccion", "cliente_correo"]
+        labels = {
+            "cliente_nombre": "Nombre completo",
+            "cliente_cedula": "Cédula",
+            "cliente_telefono": "Teléfono",
+            "cliente_direccion": "Dirección",
+            "cliente_correo": "Correo electrónico",
         }
