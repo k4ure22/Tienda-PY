@@ -26,10 +26,12 @@ class UsuarioForm(forms.ModelForm):
 
     def save(self, commit=True):
         usuario = super().save(commit=False)
-        usuario.set_password(self.cleaned_data["password"])  # encripta la contraseña
+        usuario.username = self.cleaned_data["email"]  # ← aquí rellenamos username
+        usuario.set_password(self.cleaned_data["password"])
         if commit:
             usuario.save()
         return usuario
+
 
 class SolicitudRegistroForm(forms.ModelForm):
     class Meta:

@@ -1,0 +1,228 @@
+/* Estilos generales */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e293b;
+  padding: 10px 20px;
+  color: #fff;
+}
+
+.logo h2 {
+  margin: 0;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+}
+
+.search-bar button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  background: #c4daff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-buttons .btn {
+  background: #3b82f6;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.nav-buttons .btn:hover {
+  background: #2563eb;
+}
+
+.perfil img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Header general */
+/* ===== Barra superior ===== */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #b6b6b6; /* Azul claro */
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* === Izquierda (logo + buscador) === */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.topbar-logo {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Buscador */
+.topbar-search {
+  display: flex;
+  align-items: center;
+}
+
+.topbar-search input {
+  padding: 6px 10px;
+  border: 1px solid #aaa;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+}
+
+.topbar-search button {
+  padding: 6px 12px;
+  border: 1px solid #aaa;
+  border-left: none;
+  background: #868ea3;
+  color: white;
+  cursor: pointer;
+  border-radius: 0 20px 20px 0;
+}
+
+.topbar-search button:hover {
+  background: #0056b3;
+}
+
+/* === Centro === */
+.topbar-center {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* === Derecha === */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Botones tipo "pastilla" */
+.pill {
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  background-color: #e6e6e6;
+  transition: background 0.2s;
+}
+
+.pill:hover {
+  background-color: #d4d4d4;
+}
+
+
+/* Botón Cargar Excel */
+.pill-green {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.pill-green:hover {
+  background-color: #218838;    
+}
+
+
+.pill-red {
+  background-color: #dc3545;
+  color: white;
+}
+
+.pill-red:hover {
+  background-color: #c82333;
+}
+
+/* Notificaciones */
+.icon-btn {
+  font-size: 20px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Chip de usuario */
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #333;
+  background: #f1f1f1;
+  padding: 4px 10px;
+  border-radius: 15px;
+  transition: background 0.2s;
+}
+
+.user-chip:hover {
+  background: #e2e2e2;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 40%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Contenedor del botón volver */
+.volver-container {
+  margin: 0px 0;
+  text-align: left; /* lo dejas a la izquierda, puedes cambiar a center o right */
+}
+
+/* Estilo botón volver */
+.btn-volver {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-volver:hover { 
+  background-color: #0056b3;
+}

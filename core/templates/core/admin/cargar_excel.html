@@ -1,18 +1,32 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Cargar productos desde Excel</title>
+  <link rel="stylesheet" href="{% static 'core/cargue.css' %}">
 </head>
+
 <body>
   <h1>Subir archivo Excel</h1>
 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <input type="file" name="excel_file" accept=".xlsx,.xls" required>
     <button type="submit">Subir</button>
+
     <a href="{% url 'productos' %}">Cancelar</a>
   </form>
 </body>
+
 </html>

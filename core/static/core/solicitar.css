@@ -1,0 +1,139 @@
+/* Fondo general */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #6d90cc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Card contenedor */
+.form-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 420px;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Animación suave al cargar */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Título */
+.form-container h1 {
+  text-align: center;
+  color: #000000;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+/* Campos del formulario */
+.form-group {
+  margin-bottom: 0.8rem;
+  margin-right: 0.7rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #5e6ef7;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #1e3a8a;
+  box-shadow: 0 0 5px rgba(30, 58, 138, 0.4);
+}
+
+/* Botón */
+.form-actions button {
+  width: 100%;
+  padding: 0.8rem;
+  background: #1e3a8a;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.form-actions button:hover {
+  background: #153072;
+}
+
+/* Enlaces extras */
+.extra-links {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.extra-links p {
+  margin: 0.5rem 0;
+  color: #444;
+}
+
+.extra-links a {
+  color: #1e3a8a;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.extra-links a:hover {
+  color: #0d1b4d;
+  text-decoration: underline;
+}
+
+/* Errores */
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+/* Grid de dos columnas para los campos */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.2rem 4rem; 
+}
+
+/* Cada grupo ocupa bien su espacio */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Que ciertos campos se expandan en las 2 columnas */
+.form-group.wide {
+  grid-column: span 2;
+}
+
+/* Responsive: en pantallas pequeñas se vuelve 1 columna */
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -28,14 +28,16 @@ def home(request):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect("perfil_usuario", id=user.id)  
+            return redirect("productos") 
+        else:
             return render(
-                request,
+                request,    
                 "core/usuario/inises.html",
                 {"error": "Credenciales inválidas"}
             )
 
-    return render(request, "core/usuario/productos.html")
+    
+    return render(request, "core/usuario/inises.html")
 
 
 
@@ -247,6 +249,7 @@ def cargar_excel(request):
 
         try:
             df = pd.read_excel(excel_file)
+            print(df.head())
 
             for _, row in df.iterrows():
                 Producto.objects.create(

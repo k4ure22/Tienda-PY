@@ -4,56 +4,51 @@
 <head>
   <meta charset="UTF-8">
   <title>Productos</title>
+  <link rel="stylesheet" href="{% static 'core/general.css' %}">
   <link rel="stylesheet" href="{% static 'core/productos.css' %}">
 </head>
 <body>
-<aside class="sidebar">
-  <h2>Computadores</h2>
-   <form action="{% url 'productos' %}" method="get" class="search-form">
-  <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
-  <button type="submit">🔍</button>
-</form>
+<header class="topbar">
+  <div class="topbar-left">
+    <h2 class="topbar-logo">Computadores</h2>
 
-      <div class="acciones">
-    <a href="{% url 'cargar_excel' %}">
-      <button>Cargar desde Excel</button>
-    </a>
+    <form action="{% url 'productos' %}" method="get" class="topbar-search">
+      <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
+      <button type="submit">🔍</button>
+    </form>
   </div>
-  <nav>
-    <ul>
-      <li><a href="{% url 'productos' %}">PRODUCTOS</a></li>
-      <li><a href="{% url 'crear' %}">Crear</a></li>
-      <li><a href="{% url 'solicitudes' %}">🔔</a></li>
-      
-    </ul>
-  </nav>
- <a href="{% url 'perfil_usuario' request.user.id %}">
-  <div class="sidebar-bottom">
+
+  <div class="topbar-center">
+    <span class="topbar-title">Productos</span>
+  </div>
+
+  <div class="topbar-right">
+    <a href="{% url 'solicitudes' %}" class="icon-btn" title="Notificaciones">🔔</a>
+
     {% if request.user.is_authenticated %}
-      {% if request.user.foto_perfil %}
-        <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="icon">
-      {% endif %}
-      <button>{{ request.user.nombre }}</button>
+      <a href="{% url 'perfil_usuario' request.user.id %}" class="user-chip">
+        {% if request.user.foto_perfil %}
+          <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="avatar">
+        {% else %}
+          <img src="{% static 'core/img/default-user.png' %}" alt="Foto de perfil" class="avatar">
+        {% endif %}
+        <span class="user-name">{{ request.user.nombre|default:request.user.email }}</span>
+      </a>
+      <a href="{% url 'logout' %}" class="pill pill-red">Cerrar sesión</a>
     {% else %}
-      <img src="{% static 'core/img/prom1.png' %}" alt="Imagen lateral" class="icon">
-      <a href="{% url 'registro' %}"><button>Registrar Usuario</button></a>
+      <a href="{% url 'login' %}" class="pill">Iniciar sesión</a>
     {% endif %}
   </div>
-</a>
+</header>
 
-  <a href="{% url 'logout' %}"><button>Cerrar Sesión</button></a>
-</div>
-
-
-
-</aside>
-
-  <header class="header">
-   
-  </header>
 
   <main class="content">
     <h1>Productos</h1>
+    <div class="crear-nuevo">
+  <a href="{% url 'crear' %}" class="btn-crear">Crear nuevo</a>
+</div>
+
+
 
     <section>
   {% regroup productos by marca as productos_por_marca %}

@@ -10,7 +10,14 @@ class Usuario(AbstractUser):
     email = models.EmailField(unique=True)
     direccion = models.CharField(max_length=255, blank=True, null=True)
     telefono = models.CharField(max_length=20, blank=True, null=True)
-    foto_perfil = models.ImageField(upload_to="usuarios/", null=True, blank=True)
+    foto_perfil = models.ImageField(
+    upload_to="fotos_perfil/",
+    blank=True,
+    null=True,
+    default="usuarios/perfil.png"   
+)
+
+
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'nombre']

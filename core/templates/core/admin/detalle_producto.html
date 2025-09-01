@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{{ producto.marca }} {{ producto.modelo }}</title>
-  <link rel="stylesheet" href="{% static 'core/productos.css' %}">
+  <link rel="stylesheet" href="{% static 'core/prod.css' %}">
 </head>
 <body>
   <header class="header">
@@ -41,17 +41,12 @@
         </div>
       {% endif %}
 
-      <div class="acciones">
-  <a href="{% url 'facturar_producto' producto.id %}">
-  <button class="facturar">💵 Facturar</button>
-</a>
-  
+  <div class="acciones">
+  <a href="{% url 'facturar_producto' producto.id %}" class="btn-facturar"> Facturar</a>
+  <a href="{% url 'editar_producto' producto.id %}" class="btn-editar"> Editar</a>
+  <a href="{% url 'eliminar_producto' producto.id %}" class="btn-eliminar"> Eliminar</a>
 </div>
 
-<div class="crud-botones">
-  <a href="{% url 'editar_producto' producto.id %}" class="btn-editar">✏️ Editar</a>
-  <a href="{% url 'eliminar_producto' producto.id %}" class="btn-eliminar">🗑 Eliminar</a>
-</div>
 
 
     </div>

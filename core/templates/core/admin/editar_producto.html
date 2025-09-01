@@ -4,15 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <title>Editar {{ producto.marca }} {{ producto.modelo }}</title>
+  <link rel="stylesheet" href="{% static 'core/edit.css' %}">
 </head>
 <body>
-  <h1>Editar producto</h1>
+  <h1 class="page-title">Editar producto</h1>
 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar cambios</button>
-    <a href="{% url 'detalle_producto' producto.id %}">Cancelar</a>
+    <h1>Información del producto</h1>
+
+    <div class="form-grid">
+      {{ form.as_p }}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit">Guardar cambios</button>
+      <a href="{% url 'detalle_producto' producto.id %}" class="cancelar">Cancelar</a>
+    </div>
   </form>
 </body>
+
 </html>

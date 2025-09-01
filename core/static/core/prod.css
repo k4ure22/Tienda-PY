@@ -1,0 +1,200 @@
+/* ============================
+   Estilos generales
+============================ */
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f0f4f9, #e3ecf5);
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* ============================
+   Header
+============================ */
+.header {
+  background: linear-gradient(90deg, #cfe5ff, #8fc1ff);
+  color: #fff;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  margin: 0;
+    color: #555555;
+}
+
+.btn-volver {
+  text-decoration: none;
+  color: hsl(0, 0%, 100%);
+  background: #7e62fa;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+  background: #4769ff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+/* ============================
+   Contenedor principal
+============================ */
+.detalle-container {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* ============================
+   Imagen
+============================ */
+.detalle-imagen img {
+  width: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.detalle-imagen img:hover {
+  transform: scale(1.05);
+}
+
+/* ============================
+   Info del producto
+============================ */
+.detalle-info h2 {
+  margin-top: 0;
+  color: #0072ff;
+}
+
+.detalle-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.detalle-info ul li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1rem;
+}
+
+.descripcion {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f9fbff;
+  border-left: 4px solid #0072ff;
+  border-radius: 8px;
+}
+
+.descripcion h3 {
+  margin-top: 0;
+  color: #444;
+}
+
+/* ============================
+   Botones de acción
+============================ */
+.acciones {
+  margin-top: 2rem;
+}
+
+.facturar {
+  background: linear-gradient(90deg, #28a745, #34d058);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 7rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  margin-left: 10rem;
+}
+
+.facturar:hover {
+  background: linear-gradient(90deg, #218838, #28a745);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* ============================
+   Botones CRUD
+============================ */
+.acciones {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem; 
+}
+
+.acciones a {
+  text-decoration: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+}
+
+/* Facturar */
+.btn-facturar {
+  background: linear-gradient(90deg, #28a745, #34d058);
+  color: #fff;
+}
+.btn-facturar:hover {
+  background: linear-gradient(90deg, #218838, #28a745);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Editar */
+.btn-editar {
+  background: #ffb400;
+  color: #fff;
+}
+.btn-editar:hover {
+  background: #e0a200;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Eliminar */
+.btn-eliminar {
+  background: #ff4d4d;
+  color: #fff;
+}
+.btn-eliminar:hover {
+  background: #e60000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ============================
+   Responsive
+============================ */
+@media (max-width: 900px) {
+  .detalle-container {
+    grid-template-columns: 1fr;
+  }
+
+  .crud-botones {
+    flex-direction: column;
+  }
+
+  .crud-botones a {
+    text-align: center;
+  }
+}

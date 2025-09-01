@@ -1,0 +1,75 @@
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #7573ff, #ffffff);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 35px;
+      color: #424242;
+      text-align: center;
+      text-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .container {
+      background: #fd6a6a;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0px 8px 20px rgb(255, 255, 255);
+      text-align: center;
+      width: 380px;
+    }
+
+    input[type="file"] {
+      display: block;
+      margin: 0 auto 20px auto;
+      border: 2px dashed #000000;
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      color: #555;
+      transition: 0.3s;
+    }
+
+    input[type="file"]:hover {
+      border-color: #74ebd5;
+      background: #f9f9f9;
+    }
+
+    button {
+      background: #718eee;
+      border: none;
+      padding: 12px 2px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 110%;
+      margin-bottom: 15px;
+    }
+
+    button:hover {
+      background: #0004f8;
+    }
+
+    a {
+      display: inline-block;
+      text-decoration: none;
+      color: #000000;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    a:hover {
+      color: #da3131;
+    }

@@ -1,0 +1,93 @@
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #f4f7fb;
+  margin: 0;
+  padding: 0;
+}
+
+/* Card del perfil */
+.perfil-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Título */
+.perfil-titulo {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 25px;
+}
+
+/* Layout en dos columnas */
+.perfil-content {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 30px;
+  align-items: center;
+}
+
+.perfil-foto img {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #3498db;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Info del perfil */
+.perfil-info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.perfil-item {
+  background: #f9fbfd;
+  padding: 12px 16px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.perfil-label {
+  font-weight: 600;
+  color: #34495e;
+}
+
+.perfil-valor {
+  color: #2c3e50;
+  margin: 0 10px;
+  flex: 1;
+}
+
+.perfil-editar {
+  text-decoration: none;
+  font-size: 18px;
+  color: #3498db;
+  transition: color 0.2s ease;
+}
+
+.perfil-editar:hover {
+  color: #1d6fa5;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .perfil-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .perfil-foto img {
+    margin: 0 auto;
+  }
+  .perfil-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

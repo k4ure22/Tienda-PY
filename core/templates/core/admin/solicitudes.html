@@ -4,57 +4,50 @@
 <head>
   <meta charset="UTF-8">
   <title>Centro de Solicitudes</title>
-  <link rel="stylesheet" href="{% static 'core/estilos.css' %}">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 20px;
-      margin-bottom: 30px;
-    }
-    .container {
-      display: flex;
-      gap: 30px;
-      padding: 20px;
-    }
-    .card {
-      flex: 1;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #eee;
-    }
-    button {
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-  </style>
+  <link rel="stylesheet" href="{% static 'core/productos.css' %}">
+ 
 </head>
 <body>
+  <aside class="sidebar">
+  <h2>Computadores</h2>
+   <form action="{% url 'productos' %}" method="get" class="search-form">
+  <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
+  <button type="submit">🔍</button>
+</form>
+
+      <div class="acciones">
+    <a href="{% url 'cargar_excel' %}">
+      <button>Cargar desde Excel</button>
+    </a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="{% url 'productos' %}">PRODUCTOS</a></li>
+      <li><a href="{% url 'crear' %}">Crear</a></li>
+      <li><a href="{% url 'solicitudes' %}">🔔</a></li>
+      
+    </ul>
+  </nav>
+ <a href="{% url 'perfil_usuario' request.user.id %}">
+  <div class="sidebar-bottom">
+    {% if request.user.is_authenticated %}
+      {% if request.user.foto_perfil %}
+        <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="icon">
+      {% endif %}
+      <button>{{ request.user.nombre }}</button>
+    {% else %}
+      <img src="{% static 'core/img/prom1.png' %}" alt="Imagen lateral" class="icon">
+      <a href="{% url 'registro' %}"><button>Registrar Usuario</button></a>
+    {% endif %}
+  </div>
+</a>
+
+  <a href="{% url 'logout' %}"><button>Cerrar Sesión</button></a>
+</div>
+
+
+
+</aside>
 <h1>Centro de Notificaciones</h1>
 
 <div class="container">

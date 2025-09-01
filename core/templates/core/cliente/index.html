@@ -4,28 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <title>Productos</title>
+  <link rel="stylesheet" href="{% static 'core/general.css' %}">
   <link rel="stylesheet" href="{% static 'core/productos.css' %}">
 </head>
 <body>
-<aside class="sidebar">
-  <h2>Computadores</h2>
-   <form action="{% url 'productos' %}" method="get" class="search-form">
-  <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
-  <button type="submit">🔍</button>
-</form>
-  <nav>
-    <ul>
-      <li><a href="{% url 'index' %}">PRODUCTOS</a></li>
-    </ul>
-  </nav>
-<div class="sidebar-bottom">
+<header class="topbar">
+  <div class="topbar-left">
+    <h2 class="topbar-logo">Computadores</h2>
 
-    <a href="{% url 'login' %}"><button>Inicia Sesion</button></a>
-</div>
+    <form action="{% url 'index' %}" method="get" class="topbar-search">
+      <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
+      <button type="submit">🔍</button>
+    </form>
+  </div>
 
+  <div class="topbar-center">
+    <span class="topbar-title">Productos</span>
+  </div>
+  
+  <a href="{% url 'login' %}" class="pill">Iniciar sesión</a>
 
+</header>
 
-</aside>
 
   <header class="header">
    

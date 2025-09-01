@@ -1,19 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Solicitud de Registro</title>
+  <link rel="stylesheet" href="{% static 'core/solicitar.css' %}">
 </head>
+
 <body>
-  <h1>Solicitud de Registro de Empleado</h1>
+  <div class="form-container">
+    <h1>Solicitud de Registro</h1>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-grid">
+        {% for field in form %}
+        <div class="form-group">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+          <div class="error">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
 
-    <button type="submit">Enviar solicitud</button>
-  </form>
+      <div class="form-actions">
+        <button type="submit">Enviar solicitud</button>
+      </div>
+    </form>
 
-  <a href="{% url 'login' %}">⬅ Volver al login</a>
+    <div class="extra-links">
+      <p>¿Ya tienes una cuenta?</p>
+      <a href="{% url 'login' %}">⬅ Volver al login</a>
+    </div>
+  </div>
 </body>
+
 </html>
