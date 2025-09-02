@@ -4,13 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Rechazar Solicitud</title>
+  <link rel="stylesheet" href="{% static 'core/confirma.css' %}">
+
 </head>
 <body>
+  <div class="confirm-container">
   <h2>¿Seguro que deseas rechazar la solicitud de {{ solicitud.nombres }}?</h2>
   <form method="post">
     {% csrf_token %}
-    <button type="submit">Sí, rechazar</button>
-    <a href="{% url 'solicitudes' %}"><button type="button">Cancelar</button></a>
+    <button type="submit" class="btn">Sí, rechazar</button>
+    <a href="{% url 'solicitudes' %}"><button type="button" class="btn">Cancelar</button></a>
   </form>
+  </div>
 </body>
 </html>

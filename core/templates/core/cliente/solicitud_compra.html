@@ -1,19 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Solicitud de Compra</title>
+  <link rel="stylesheet" href="{% static 'core/solicompra.css' %}">
 </head>
+
 <body>
-  <h1>Solicitud de compra para {{ producto.marca }} {{ producto.modelo }}</h1>
+  <div class="form-container">
+    <h1>Solicitud de compra</h1>
+    <h2>{{ producto.marca }} {{ producto.modelo }}</h2>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <form method="post" class="form">
+      {% csrf_token %}
+      <p>
+        {{ form.nombre.label_tag }}
+        {{ form.nombre }}
+      </p>
+      <p>
+        {{ form.cedula.label_tag }}
+        {{ form.cedula }}
+      </p>
+      <p>
+        {{ form.telefono.label_tag }}
+        {{ form.telefono }}
+      </p>
+      <p>
+        {{ form.direccion.label_tag }}
+        {{ form.direccion }}
+      </p>
+      <button type="submit" class="btn">Confirmar compra</button>
+    </form>
 
-    <button type="submit">Confirmar compra</button>
-  </form>
-
-  <a href="{% url 'detalle_producto' producto.id %}">⬅ Volver al producto</a>
+    <p class="back-text">¿Quieres regresar?</p>
+    <a href="{% url 'detalle_producto' producto.id %}" class="back-link">⬅ Volver al producto</a>
+  </div>
 </body>
+
 </html>

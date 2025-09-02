@@ -1,108 +1,107 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Centro de Solicitudes</title>
-  <link rel="stylesheet" href="{% static 'core/productos.css' %}">
- 
+  <link rel="stylesheet" href="{% static 'core/general.css' %}">
+  <link rel="stylesheet" href="{% static 'core/notis.css' %}">
+
+
 </head>
+
 <body>
-  <aside class="sidebar">
-  <h2>Computadores</h2>
-   <form action="{% url 'productos' %}" method="get" class="search-form">
-  <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
-  <button type="submit">🔍</button>
-</form>
+  <header class="topbar">
+    <div class="topbar-left">
+      <h2 class="topbar-logo">Computadores</h2>
 
-      <div class="acciones">
-    <a href="{% url 'cargar_excel' %}">
-      <button>Cargar desde Excel</button>
-    </a>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="{% url 'productos' %}">PRODUCTOS</a></li>
-      <li><a href="{% url 'crear' %}">Crear</a></li>
-      <li><a href="{% url 'solicitudes' %}">🔔</a></li>
-      
-    </ul>
-  </nav>
- <a href="{% url 'perfil_usuario' request.user.id %}">
-  <div class="sidebar-bottom">
-    {% if request.user.is_authenticated %}
-      {% if request.user.foto_perfil %}
-        <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="icon">
+      <form action="{% url 'productos' %}" method="get" class="topbar-search">
+        <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
+        <button type="submit">🔍</button>
+      </form>
+    </div>
+
+    <div class="topbar-center">
+      <span class="topbar-title">Productos</span>
+    </div>
+
+    <div class="topbar-right">
+      <a href="{% url 'solicitudes' %}" class="icon-btn" title="Notificaciones">🔔</a>
+
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'perfil_usuario' request.user.id %}" class="user-chip">
+        {% if request.user.foto_perfil %}
+        <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="avatar">
+        {% else %}
+        <img src="{% static 'core/img/default-user.png' %}" alt="Foto de perfil" class="avatar">
+        {% endif %}
+        <span class="user-name">{{ request.user.nombre|default:request.user.email }}</span>
+      </a>
+      <a href="{% url 'logout' %}" class="pill pill-red">Cerrar sesión</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="pill">Iniciar sesión</a>
       {% endif %}
-      <button>{{ request.user.nombre }}</button>
-    {% else %}
-      <img src="{% static 'core/img/prom1.png' %}" alt="Imagen lateral" class="icon">
-      <a href="{% url 'registro' %}"><button>Registrar Usuario</button></a>
-    {% endif %}
-  </div>
-</a>
+    </div>
+  </header>
+  <h1>Centro de Notificaciones</h1>
+  
+    <a href="{% url 'productos' %}" class="btn-volver">⬅ Volver</a>
 
-  <a href="{% url 'logout' %}"><button>Cerrar Sesión</button></a>
-</div>
+  <div class="container">
 
 
-
-</aside>
-<h1>Centro de Notificaciones</h1>
-
-<div class="container">
-
-  <!-- Columna: Solicitudes de Registro -->
-  <div class="card">
-    <h2>Solicitudes de Registro</h2>
-    {% if solicitudes_registro %}
+    <div class="card">
+      <h2>Solicitudes de Registro</h2>
+      {% if solicitudes_registro %}
       <ul>
         {% for s in solicitudes_registro %}
-         <li>
-  <strong>{{ s.nombres }}</strong> ({{ s.cargo }}) <br>
-  Identificación: {{ s.tipo_identificacion }} {{ s.numero_identificacion }} <br>
-  Correo: {{ s.correo }} <br>
-  Teléfono: {{ s.telefono }} <br>
-  Fecha: {{ s.fecha_solicitud|date:"d/m/Y H:i" }}
+        <li>
+          <strong>{{ s.nombres }}</strong> ({{ s.cargo }}) <br>
+          Identificación: {{ s.tipo_identificacion }} {{ s.numero_identificacion }} <br>
+          Correo: {{ s.correo }} <br>
+          Teléfono: {{ s.telefono }} <br>
+          Fecha: {{ s.fecha_solicitud|date:"d/m/Y H:i" }}
 
-  <br>
-  <a href="{% url 'registrar_desde_solicitud' s.id %}">
-    <button>Registrar ahora</button>
-  </a>
+          <br>
+          <a href="{% url 'registrar_desde_solicitud' s.id %}">
+            <button>Registrar ahora</button>
+          </a>
 
-  <a href="{% url 'rechazar_solicitud' s.id %}">
-    <button style="background:red; color:white;">Rechazar</button>
-  </a>
-</li>
-<hr>
+          <a href="{% url 'rechazar_solicitud' s.id %}">
+            <button style="background:red; color:white;">Rechazar</button>
+          </a>
+        </li>
+        <hr>
 
         {% endfor %}
       </ul>
-    {% else %}
+      {% else %}
       <p>No hay solicitudes de registro.</p>
-    {% endif %}
-  </div>
+      {% endif %}
+    </div>
 
-  <!-- Columna: Solicitudes de Compra -->
-  <div class="card">
-    <h2>Solicitudes de Compra</h2>
-    {% if solicitudes_compra %}
+
+    <div class="card">
+      <h2>Solicitudes de Compra</h2>
+      {% if solicitudes_compra %}
       <ul>
         {% for v in solicitudes_compra %}
-          <li>
-            <strong>{{ v.cliente_nombre }}</strong> - {{ v.producto.marca }} {{ v.producto.modelo }} <br>
-            Cédula: {{ v.cliente_cedula }} <br>
-            Teléfono: {{ v.cliente_telefono }} <br>
-            Fecha: {{ v.fecha|date:"d/m/Y H:i" }}
-          </li>
+        <li>
+          <strong>{{ v.cliente_nombre }}</strong> - {{ v.producto.marca }} {{ v.producto.modelo }} <br>
+          Cédula: {{ v.cliente_cedula }} <br>
+          Teléfono: {{ v.cliente_telefono }} <br>
+          Fecha: {{ v.fecha|date:"d/m/Y H:i" }}
+        </li>
         {% endfor %}
       </ul>
-    {% else %}
+      {% else %}
       <p>No hay solicitudes de compra.</p>
-    {% endif %}
+      {% endif %}
+    </div>
+
   </div>
 
-</div>
-
 </body>
+
 </html>

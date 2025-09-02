@@ -1,0 +1,121 @@
+/* ============================
+   Estilos generales
+============================ */
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  color: #333;
+}
+
+.invoice-container {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  padding: 2.5rem;
+  max-width: 900px;
+  width: 100%;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================
+   Encabezado
+============================ */
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.company-info h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #0072ff;
+}
+
+.invoice-meta {
+  text-align: right;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.divider {
+  border: none;
+  border-top: 2px solid #eee;
+  margin: 1.5rem 0;
+}
+
+/* ============================
+   Secciones
+============================ */
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  color: #0072ff;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+/* ============================
+   Producto con imagen
+============================ */
+.product-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.product-details {
+  flex: 2;
+}
+
+.product-img img {
+  max-width: 200px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #28a745;
+  margin-top: 1rem;
+}
+
+/* ============================
+   Botón PDF
+============================ */
+.download {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.btn-download {
+  display: inline-block;
+  text-decoration: none;
+  background: linear-gradient(90deg, #0072ff, #00c6ff);
+  color: #fff;
+  padding: 0.9rem 1.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-download:hover {
+  background: linear-gradient(90deg, #005ecb, #0096c7);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}

@@ -1,0 +1,164 @@
+/* ============================
+   Estilos generales
+============================ */
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f0f4f9, #e4e0fc);
+  margin: 0;
+  padding: 0;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ============================
+   Título superior fuera de la caja
+============================ */
+.page-title {
+  margin-top: 2rem;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+}
+
+/* ============================
+   Caja del formulario
+============================ */
+form {
+  background: #ffffff;
+  margin-top: 2rem;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 1000px;
+  animation: fadeIn 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Animación suave */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================
+   Encabezado dentro del form
+============================ */
+form h1 {
+  text-align: center;
+  color: #444;
+  font-size: 1.8rem;
+  margin: 2;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #eee;
+}
+
+/* ============================
+   Campos en varias columnas
+============================ */
+.form-grid {
+  display: grid;
+  gap: 1.5rem 2rem;
+}
+
+form p {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+form label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #444;
+}
+
+form input {
+  padding: 0.7rem 0rem;
+  border-radius: 10px;
+  border: 1px solid hwb(224 57% 3%);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fafafa;
+  width: 98%;
+  margin-bottom: -4rem;
+}
+
+form input:focus {
+  outline: none;
+  border-color: #0072ff;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(0,114,255,0.3);
+}
+
+/* ============================
+   Botones
+============================ */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+button[type="submit"] {
+  background: linear-gradient(90deg, #28a745, #34d058);
+  color: #fff;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(90deg, #218838, #28a745);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+a.cancelar {
+  text-decoration: none;
+  padding: 0.9rem 1.5rem;
+  background: #ff4d6d;
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+a.cancelar:hover {
+  background: #ff1f4b;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+}
+
+/* ============================
+   Responsive
+============================ */
+@media (max-width: 1000px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+@media (max-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr; 
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  button[type="submit"],
+  a.cancelar {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -198,3 +198,20 @@ body {
     text-align: center;
   }
 }
+.comprar {
+  background: linear-gradient(90deg, #28a745, #34d058);
+  color: #fff;
+  text-decoration: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+}
+.comprar:hover {
+  background: linear-gradient(90deg, #218838, #28a745);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}

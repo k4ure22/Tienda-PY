@@ -1,0 +1,82 @@
+/* === Reset básico === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f5f7fa;
+  color: #333;
+}
+
+/* === Título === */
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 2rem;
+  color: #222;
+}
+
+/* === Contenedor principal === */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  padding: 30px;
+}
+
+/* === Tarjetas === */
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+
+.card ul {
+  list-style: none;
+}
+
+.card li {
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.card li strong {
+  color: #2c3e50;
+}
+
+/* Botones dentro de tarjetas */
+.card button {
+  margin-top: 8px;
+  margin-right: 8px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #27ae60;
+  color: #fff;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.card button:hover {
+  background: #1e8449;
+}
+
+.card button[style*="red"] {
+  background: #e74c3c !important;
+}
+
+.card button[style*="red"]:hover {
+  background: #c0392b !important;
+}

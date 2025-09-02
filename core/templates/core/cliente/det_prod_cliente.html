@@ -1,11 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>{{ producto.marca }} {{ producto.modelo }}</title>
-  <link rel="stylesheet" href="{% static 'core/productos.css' %}">
+  <link rel="stylesheet" href="{% static 'core/prod.css' %}">
 </head>
+
 <body>
   <header class="header">
     <h1>{{ producto.marca }} {{ producto.modelo }}</h1>
@@ -15,9 +17,9 @@
   <main class="detalle-container">
     <div class="detalle-imagen">
       {% if producto.imagen %}
-        <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}">
+      <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}">
       {% else %}
-        <img src="{% static 'core/img/default.png' %}" alt="Sin imagen">
+      <img src="{% static 'core/img/default.png' %}" alt="Sin imagen">
       {% endif %}
     </div>
 
@@ -35,21 +37,22 @@
       </ul>
 
       {% if producto.detalles %}
-        <div class="descripcion">
-          <h3>Detalles adicionales</h3>
-          <p>{{ producto.detalles }}</p>
-        </div>
+      <div class="descripcion">
+        <h3>Detalles adicionales</h3>
+        <p>{{ producto.detalles }}</p>
+      </div>
       {% endif %}
 
       <div class="acciones">
-  <form action="{% url 'comprar' producto.id %}" method="post">
-    {% csrf_token %}
-    <button type="submit" class="comprar">💳 Comprar</button>
-  </form>
-</div>
+        <form action="{% url 'comprar' producto.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="comprar">Comprar</button>
+        </form>
+      </div>
 
 
     </div>
   </main>
 </body>
+
 </html>

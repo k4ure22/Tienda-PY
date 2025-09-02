@@ -1,0 +1,51 @@
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #bbc3da;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+
+.confirm-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+
+.confirm-container h2 {
+  font-size: 1.5rem;
+  color: #16a34a; /* verde éxito */
+  margin-bottom: 1rem;
+}
+
+
+.confirm-container p {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+/* Botón */
+.btn {
+  display: inline-block;
+  background-color: #1e3a8a;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background-color: #152c6d;
+}

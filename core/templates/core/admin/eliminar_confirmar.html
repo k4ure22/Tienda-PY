@@ -4,16 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Eliminar producto</title>
+  <link rel="stylesheet" href="{% static 'core/confirma.css' %}">
 </head>
 <body>
+  <div class="confirm-container">
   <h1>Eliminar producto</h1>
-
   <p>¿Estás seguro que deseas eliminar el producto <strong>{{ producto.marca }} {{ producto.modelo }}</strong>?</p>
-
   <form method="post">
     {% csrf_token %}
-    <button type="submit">Sí, eliminar</button>
-    <a href="{% url 'detalle_producto' producto.id %}">Cancelar</a>
+    <button type="submit" class="btn">Sí, eliminar</button>
+    <a href="{% url 'detalle_producto' producto.id %}"class="btn">Cancelar</a>
   </form>
+  </div>
 </body>
 </html>
