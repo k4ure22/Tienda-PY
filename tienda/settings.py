@@ -21,7 +21,7 @@ SECRET_KEY = 'django-insecure-fl8*n7z&+j2#e#n^&#mmda@3vq%xv4)avy5+@d#(0(*mh@xlz*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['kaure.pythonanywhere.com']
 
 
 # Application definition
@@ -137,3 +137,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Configuración para archivos multimedia
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    
