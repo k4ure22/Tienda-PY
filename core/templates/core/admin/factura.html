@@ -1,4 +1,6 @@
 {% load static %}
+{% load humanize %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -43,7 +45,7 @@
           <p><strong>Procesador:</strong> {{ producto.procesador }}</p>
           <p><strong>Color:</strong> {{ producto.color|default:"No especificado" }}</p>
           <p><strong>Serial:</strong> {{ producto.serial }}</p>
-          <p class="price"><strong>Precio:</strong> ${{ producto.precio|floatformat:2 }}</p>
+          <p class="price"><strong>Precio:</strong> ${{ producto.precio|intcomma }}</p>
         </div>
         {% if producto.imagen %}
         <div class="product-img">

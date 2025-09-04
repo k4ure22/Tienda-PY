@@ -1,107 +1,118 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
   <meta charset="UTF-8">
   <title>Centro de Solicitudes</title>
-  <link rel="stylesheet" href="{% static 'core/general.css' %}">
-  <link rel="stylesheet" href="{% static 'core/notis.css' %}">
-
-
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
 </head>
 
-<body>
-  <header class="topbar">
-    <div class="topbar-left">
-      <h2 class="topbar-logo">Computadores</h2>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Header -->
+  <header class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <!-- Logo + buscador -->
+      <div class="flex items-center gap-6">
+        <h2 class="text-xl font-bold text-indigo-600">Computadores</h2>
+        <form action="{% url 'productos' %}" method="get" class="relative">
+          <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}"
+            class="pl-4 pr-10 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64 bg-gray-50">
+          <button type="submit"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-indigo-600">🔍</button>
+        </form>
 
-      <form action="{% url 'productos' %}" method="get" class="topbar-search">
-        <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
-        <button type="submit">🔍</button>
-      </form>
-    </div>
+      </div>
 
-    <div class="topbar-center">
-      <span class="topbar-title">Productos</span>
-    </div>
+      <!-- Título -->
+      <span class="text-lg font-semibold hidden md:block">Productos</span>
 
-    <div class="topbar-right">
-      <a href="{% url 'solicitudes' %}" class="icon-btn" title="Notificaciones">🔔</a>
-
-      {% if request.user.is_authenticated %}
-      <a href="{% url 'perfil_usuario' request.user.id %}" class="user-chip">
-        {% if request.user.foto_perfil %}
-        <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="avatar">
+      <!-- Usuario / sesión -->
+      <div class="flex items-center gap-4">
+        <a href="{% url 'solicitudes' %}" class="relative text-xl hover:text-indigo-600">🔔</a>
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'perfil_usuario' request.user.id %}"
+          class="flex items-center gap-2 bg-gray-100 rounded-full px-3 py-1 hover:bg-gray-200">
+          {% if request.user.foto_perfil %}
+          <img src="{{ request.user.foto_perfil.url }}" class="w-8 h-8 rounded-full" alt="Foto de perfil">
+          {% else %}
+          <img src="{% static 'core/img/default-user.png' %}" class="w-8 h-8 rounded-full" alt="Foto de perfil">
+          {% endif %}
+          <span class="font-medium">{{ request.user.nombre|default:request.user.email }}</span>
+        </a>
+        <a href="{% url 'logout' %}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Cerrar
+          sesión</a>
         {% else %}
-        <img src="{% static 'core/img/default-user.png' %}" alt="Foto de perfil" class="avatar">
+        <a href="{% url 'login' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Iniciar
+          sesión</a>
         {% endif %}
-        <span class="user-name">{{ request.user.nombre|default:request.user.email }}</span>
-      </a>
-      <a href="{% url 'logout' %}" class="pill pill-red">Cerrar sesión</a>
-      {% else %}
-      <a href="{% url 'login' %}" class="pill">Iniciar sesión</a>
-      {% endif %}
+      </div>
     </div>
   </header>
-  <h1>Centro de Notificaciones</h1>
-  
-    <a href="{% url 'productos' %}" class="btn-volver">⬅ Volver</a>
 
-  <div class="container">
-
-
-    <div class="card">
-      <h2>Solicitudes de Registro</h2>
-      {% if solicitudes_registro %}
-      <ul>
-        {% for s in solicitudes_registro %}
-        <li>
-          <strong>{{ s.nombres }}</strong> ({{ s.cargo }}) <br>
-          Identificación: {{ s.tipo_identificacion }} {{ s.numero_identificacion }} <br>
-          Correo: {{ s.correo }} <br>
-          Teléfono: {{ s.telefono }} <br>
-          Fecha: {{ s.fecha_solicitud|date:"d/m/Y H:i" }}
-
-          <br>
-          <a href="{% url 'registrar_desde_solicitud' s.id %}">
-            <button>Registrar ahora</button>
-          </a>
-
-          <a href="{% url 'rechazar_solicitud' s.id %}">
-            <button style="background:red; color:white;">Rechazar</button>
-          </a>
-        </li>
-        <hr>
-
-        {% endfor %}
-      </ul>
-      {% else %}
-      <p>No hay solicitudes de registro.</p>
-      {% endif %}
+  <!-- Contenido -->
+  <main class="pt-28 max-w-6xl mx-auto px-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-gray-800">Centro de Notificaciones</h1>
+      <a href="{% url 'productos' %}" class="text-indigo-600 hover:underline">⬅ Volver</a>
     </div>
 
+    <div class="grid md:grid-cols-2 gap-8">
 
-    <div class="card">
-      <h2>Solicitudes de Compra</h2>
-      {% if solicitudes_compra %}
-      <ul>
-        {% for v in solicitudes_compra %}
-        <li>
-          <strong>{{ v.cliente_nombre }}</strong> - {{ v.producto.marca }} {{ v.producto.modelo }} <br>
-          Cédula: {{ v.cliente_cedula }} <br>
-          Teléfono: {{ v.cliente_telefono }} <br>
-          Fecha: {{ v.fecha|date:"d/m/Y H:i" }}
-        </li>
-        {% endfor %}
-      </ul>
-      {% else %}
-      <p>No hay solicitudes de compra.</p>
-      {% endif %}
+      <!-- Solicitudes de compra -->
+
+      <div class="bg-white rounded-2xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Solicitudes de Compra</h2>
+        {% if solicitudes_compra %}
+        <ul class="space-y-4">
+          {% for v in solicitudes_compra %}
+          <li class="border-b pb-4">
+            <p><strong>{{ v.cliente_nombre }}</strong> - {{ v.producto.marca }} {{ v.producto.modelo }}</p>
+            <p>Cédula: {{ v.cliente_cedula }}</p>
+            <p>Teléfono: {{ v.cliente_telefono }}</p>
+            <p class="text-sm text-gray-500">Fecha: {{ v.fecha|date:"d/m/Y H:i" }}</p>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-gray-500">No hay solicitudes de compra.</p>
+        {% endif %}
+      </div>
+      <!-- Solicitudes de registro -->
+      <div class="bg-white rounded-2xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Solicitudes de Registro</h2>
+        {% if solicitudes_registro %}
+        <ul class="space-y-4">
+          {% for s in solicitudes_registro %}
+          <li class="border-b pb-4">
+            <p><strong>{{ s.nombres }}</strong> ({{ s.cargo }})</p>
+            <p>ID: {{ s.tipo_identificacion }} {{ s.numero_identificacion }}</p>
+            <p>Correo: {{ s.correo }}</p>
+            <p>Teléfono: {{ s.telefono }}</p>
+            <p class="text-sm text-gray-500">Fecha: {{ s.fecha_solicitud|date:"d/m/Y H:i" }}</p>
+            <div class="mt-3 flex gap-3">
+              <a href="{% url 'registrar_desde_solicitud' s.id %}"
+                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Registrar ahora</a>
+              <a href="{% url 'rechazar_solicitud' s.id %}"
+                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Rechazar</a>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-gray-500">No hay solicitudes de registro.</p>
+        {% endif %}
+      </div>
+
     </div>
-
-  </div>
-
+  </main>
 </body>
 
 </html>

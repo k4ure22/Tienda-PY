@@ -48,8 +48,7 @@ class SolicitudRegistroForm(forms.ModelForm):
             ])
         }
 
-class SolicitudCompraForm(forms.Form):
-    nombre = forms.CharField(label="Nombre completo", required=True)
-    cedula = forms.CharField(label="Cédula", required=True)
-    telefono = forms.CharField(label="Teléfono", required=True)
-    direccion = forms.CharField(label="Dirección", required=True)
+class SolicitudCompraForm(forms.ModelForm):
+    class Meta:
+        model = SolicitudCompra
+        fields = ['nombre', 'cedula', 'telefono', 'direccion']

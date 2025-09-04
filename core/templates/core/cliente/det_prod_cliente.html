@@ -1,31 +1,52 @@
 {% load static %}
+{% load humanize %}
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
   <meta charset="UTF-8">
   <title>{{ producto.marca }} {{ producto.modelo }}</title>
-  <link rel="stylesheet" href="{% static 'core/prod.css' %}">
+
+  <!-- Fuente Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
 </head>
 
-<body>
-  <header class="header">
-    <h1>{{ producto.marca }} {{ producto.modelo }}</h1>
-    <a href="{% url 'index' %}" class="btn-volver">⬅ Volver</a>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center px-6 py-4 bg-white shadow-sm">
+    <h1 class="text-2xl font-semibold">{{ producto.marca }} {{ producto.modelo }}</h1>
+    <a href="{% url 'index' %}" class="text-blue-600 hover:text-blue-800 transition">⬅ Volver</a>
   </header>
 
-  <main class="detalle-container">
-    <div class="detalle-imagen">
+  <!-- Contenedor principal -->
+  <main class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+
+    <!-- Imagen del producto -->
+    <div class="flex justify-center">
       {% if producto.imagen %}
-      <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}">
+      <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}"
+        class="rounded-2xl shadow-md w-full max-w-md object-cover">
       {% else %}
-      <img src="{% static 'core/img/default.png' %}" alt="Sin imagen">
+      <img src="{% static 'core/img/default.png' %}" alt="Sin imagen"
+        class="rounded-2xl shadow-md w-full max-w-md object-cover">
       {% endif %}
     </div>
 
-    <div class="detalle-info">
-      <h2>Especificaciones</h2>
-      <ul>
+    <!-- Información del producto -->
+    <div class="bg-white p-6 rounded-2xl shadow-md">
+      <h2 class="text-xl font-semibold mb-4">Especificaciones</h2>
+      <ul class="space-y-2 text-gray-700">
         <li><strong>Marca:</strong> {{ producto.marca }}</li>
         <li><strong>Modelo:</strong> {{ producto.modelo }}</li>
         <li><strong>Almacenamiento:</strong> {{ producto.almacenamiento }}</li>
@@ -33,24 +54,26 @@
         <li><strong>Procesador:</strong> {{ producto.procesador }}</li>
         <li><strong>Color:</strong> {{ producto.color|default:"No especificado" }}</li>
         <li><strong>Serial:</strong> {{ producto.serial }}</li>
-        <li><strong>Precio:</strong> ${{ producto.precio|floatformat:2 }}</li>
+        <li class="text-lg font-semibold text-green-600"><strong>Precio:</strong> ${{ producto.precio|intcomma }}</li>
       </ul>
 
       {% if producto.detalles %}
-      <div class="descripcion">
-        <h3>Detalles adicionales</h3>
-        <p>{{ producto.detalles }}</p>
+      <div class="mt-6">
+        <h3 class="text-lg font-medium">Detalles adicionales</h3>
+        <p class="mt-2 text-gray-600">{{ producto.detalles }}</p>
       </div>
       {% endif %}
 
-      <div class="acciones">
+      <!-- Botón Comprar -->
+      <div class="mt-8">
         <form action="{% url 'comprar' producto.id %}" method="post">
           {% csrf_token %}
-          <button type="submit" class="comprar">Comprar</button>
+          <button type="submit"
+            class="px-6 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition shadow-md w-full">
+            🛒 Comprar ahora
+          </button>
         </form>
       </div>
-
-
     </div>
   </main>
 </body>
