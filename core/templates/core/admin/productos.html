@@ -4,77 +4,79 @@
 <head>
   <meta charset="UTF-8">
   <title>Productos</title>
-  <link rel="stylesheet" href="{% static 'core/general.css' %}">
-  <link rel="stylesheet" href="{% static 'core/productos.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<header class="topbar">
-  <div class="topbar-left">
-    <h2 class="topbar-logo">Computadores</h2>
+<body class="bg-gray-50 text-gray-800">
+  <header class="flex justify-between items-center bg-white shadow px-6 py-3">
+    <div class="flex items-center gap-4">
+      <h2 class="text-xl font-semibold text-indigo-600">Computadores</h2>
 
-    <form action="{% url 'productos' %}" method="get" class="topbar-search">
-      <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
-      <button type="submit">🔍</button>
-    </form>
-  </div>
+      <form action="{% url 'productos' %}" method="get" class="flex items-center border rounded-lg overflow-hidden">
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="Buscar productos..." 
+          value="{{ query|default_if_none:'' }}" 
+          class="px-3 py-1 outline-none"
+        >
+        <button type="submit" class="bg-indigo-600 text-white px-3 py-1">🔍</button>
+      </form>
+    </div>
 
-  <div class="topbar-center">
-    <span class="topbar-title">Productos</span>
-  </div>
+    <div class="text-lg font-bold">Productos</div>
 
-  <div class="topbar-right">
-    <a href="{% url 'solicitudes' %}" class="icon-btn" title="Notificaciones">🔔</a>
+    <div class="flex items-center gap-4">
+      <a href="{% url 'solicitudes' %}" class="text-2xl" title="Notificaciones">🔔</a>
 
-    {% if request.user.is_authenticated %}
-      <a href="{% url 'perfil_usuario' request.user.id %}" class="user-chip">
-        {% if request.user.foto_perfil %}
-          <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="avatar">
-        {% else %}
-          <img src="{% static 'core/img/default-user.png' %}" alt="Foto de perfil" class="avatar">
-        {% endif %}
-        <span class="user-name">{{ request.user.nombre|default:request.user.email }}</span>
-      </a>
-      <a href="{% url 'logout' %}" class="pill pill-red">Cerrar sesión</a>
-    {% else %}
-      <a href="{% url 'login' %}" class="pill">Iniciar sesión</a>
-    {% endif %}
-  </div>
-</header>
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'perfil_usuario' request.user.id %}" class="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full hover:bg-gray-200 transition">
+          {% if request.user.foto_perfil %}
+            <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="w-8 h-8 rounded-full object-cover">
+          {% else %}
+            <img src="{% static 'core/img/default-user.png' %}" alt="Foto de perfil" class="w-8 h-8 rounded-full object-cover">
+          {% endif %}
+          <span class="text-sm font-medium">{{ request.user.nombre|default:request.user.email }}</span>
+        </a>
+        <a href="{% url 'logout' %}" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition">Cerrar sesión</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="bg-indigo-600 text-white px-3 py-1 rounded-lg hover:bg-indigo-700 transition">Iniciar sesión</a>
+      {% endif %}
+    </div>
+  </header>
 
-
-  <main class="content">
-    <h1>Productos</h1>
-    <div class="crear-nuevo">
-  <a href="{% url 'crear' %}" class="btn-crear">Crear nuevo</a>
-</div>
-
-
+  <main class="p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">Productos</h1>
+      <a href="{% url 'crear' %}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Crear nuevo</a>
+    </div>
 
     <section>
-  {% regroup productos by marca as productos_por_marca %}
+      {% regroup productos by marca as productos_por_marca %}
 
-  {% for grupo in productos_por_marca %}
-    <h2 class="titulo-marca">{{ grupo.grouper }}</h2>
-    <div class="grid-cards">
-      {% for producto in grupo.list %}
-        <a href="{% url 'detalle_producto' producto.id %}" class="card">
-          {% if producto.imagen %}
-            <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}">
-          {% else %}
-            <img src="{% static 'core/img/default.png' %}" alt="Sin imagen">
-          {% endif %}
+      {% for grupo in productos_por_marca %}
+        <h2 class="text-xl font-semibold text-gray-700 mt-8 mb-4">{{ grupo.grouper }}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {% for producto in grupo.list %}
+            <a href="{% url 'detalle_producto' producto.id %}" class="bg-white rounded-xl shadow hover:shadow-lg transition p-4 flex flex-col">
+              {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}" class="h-40 w-full object-contain mb-3">
+              {% else %}
+                <img src="{% static 'core/img/default.png' %}" alt="Sin imagen" class="h-40 w-full object-contain mb-3">
+              {% endif %}
 
-          <h2 class="marca-modelo">{{ producto.marca }} {{ producto.modelo }}</h2>
-          <p class="precio">${{ producto.precio|floatformat:2 }}</p>
-          <p><strong>Almacenamiento:</strong> {{ producto.almacenamiento }} &nbsp;|&nbsp; <strong>RAM:</strong> {{ producto.ram }}</p>
-          <p><strong>Procesador:</strong> {{ producto.procesador }}</p>
-          <p class="serial"><small><strong>Serial:</strong> {{ producto.serial }}</small></p>
-        </a>
+              <h2 class="text-lg font-semibold">{{ producto.marca }} {{ producto.modelo }}</h2>
+              <p class="text-indigo-600 font-bold text-lg">${{ producto.precio|floatformat:2 }}</p>
+              <p class="text-sm text-gray-600">
+                <strong>Almacenamiento:</strong> {{ producto.almacenamiento }} &nbsp;|&nbsp; 
+                <strong>RAM:</strong> {{ producto.ram }}
+              </p>
+              <p class="text-sm text-gray-600"><strong>Procesador:</strong> {{ producto.procesador }}</p>
+              <p class="text-xs text-gray-500 mt-2"><strong>Serial:</strong> {{ producto.serial }}</p>
+            </a>
+          {% endfor %}
+        </div>
       {% endfor %}
-    </div>
-  {% endfor %}
-</section>
-
+    </section>
   </main>
 </body>
 </html>
