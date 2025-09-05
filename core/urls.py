@@ -15,7 +15,6 @@ urlpatterns = [
     path("rechazar_solicitud/<int:solicitud_id>/", views.rechazar_solicitud, name="rechazar_solicitud"),
 
     # Cliente
-    path("carrito/add/<int:id>/", views.add_to_cart, name="add_to_cart"),
     path("cliente/producto/<int:id>/", views.detalle_producto_cliente, name="det_prod_cliente"),
     path("factura_pdf/<int:producto_id>/", views.factura_pdf, name="factura_pdf"),
     path("productos/cliente/", views.productos_cliente, name="productos_cliente"),
@@ -30,7 +29,10 @@ urlpatterns = [
     path("productos/cargar_excel/", views.cargar_excel, name="cargar_excel"),
     path("solicitudes/", views.solicitudes, name="solicitudes"),
     path("comprar/<int:producto_id>/", views.comprar, name="comprar"),
+    path("solicitud/<int:solicitud_id>/revisar/", views.revisar_solicitud_compra, name="revisar_solicitud_compra"),
+
 
     # Admin - facturación
     path("facturar/<int:producto_id>/", views.facturar_producto, name="facturar_producto"),
+
 ]

@@ -28,11 +28,10 @@
           <button type="submit"
             class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-indigo-600">🔍</button>
         </form>
-
       </div>
 
       <!-- Título -->
-      <span class="text-lg font-semibold hidden md:block">Productos</span>
+      <span class="text-lg font-semibold hidden md:block">Centro de Notificaciones</span>
 
       <!-- Usuario / sesión -->
       <div class="flex items-center gap-4">
@@ -47,11 +46,9 @@
           {% endif %}
           <span class="font-medium">{{ request.user.nombre|default:request.user.email }}</span>
         </a>
-        <a href="{% url 'logout' %}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Cerrar
-          sesión</a>
+        <a href="{% url 'logout' %}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Cerrar sesión</a>
         {% else %}
-        <a href="{% url 'login' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Iniciar
-          sesión</a>
+        <a href="{% url 'login' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Iniciar sesión</a>
         {% endif %}
       </div>
     </div>
@@ -60,54 +57,74 @@
   <!-- Contenido -->
   <main class="pt-28 max-w-6xl mx-auto px-6">
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold text-gray-800">Centro de Notificaciones</h1>
-      <a href="{% url 'productos' %}" class="text-indigo-600 hover:underline">⬅ Volver</a>
+      <h1 class="text-3xl font-bold text-gray-800"> Centro de Notificaciones</h1>
+      <a href="{% url 'productos' %}" class="text-indigo-600 font-medium hover:underline">⬅ Volver</a>
     </div>
 
     <div class="grid md:grid-cols-2 gap-8">
 
       <!-- Solicitudes de compra -->
-
-      <div class="bg-white rounded-2xl shadow-md p-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Solicitudes de Compra</h2>
+      <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+        <h2 class="text-xl font-semibold text-indigo-600 mb-4 flex items-center gap-2">🛒 Solicitudes de Compra</h2>
         {% if solicitudes_compra %}
-        <ul class="space-y-4">
+        <ul class="space-y-6">
           {% for v in solicitudes_compra %}
-          <li class="border-b pb-4">
-            <p><strong>{{ v.cliente_nombre }}</strong> - {{ v.producto.marca }} {{ v.producto.modelo }}</p>
-            <p>Cédula: {{ v.cliente_cedula }}</p>
-            <p>Teléfono: {{ v.cliente_telefono }}</p>
-            <p class="text-sm text-gray-500">Fecha: {{ v.fecha|date:"d/m/Y H:i" }}</p>
-          </li>
-          {% endfor %}
-        </ul>
-        {% else %}
-        <p class="text-gray-500">No hay solicitudes de compra.</p>
-        {% endif %}
-      </div>
-      <!-- Solicitudes de registro -->
-      <div class="bg-white rounded-2xl shadow-md p-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Solicitudes de Registro</h2>
-        {% if solicitudes_registro %}
-        <ul class="space-y-4">
-          {% for s in solicitudes_registro %}
-          <li class="border-b pb-4">
-            <p><strong>{{ s.nombres }}</strong> ({{ s.cargo }})</p>
-            <p>ID: {{ s.tipo_identificacion }} {{ s.numero_identificacion }}</p>
-            <p>Correo: {{ s.correo }}</p>
-            <p>Teléfono: {{ s.telefono }}</p>
-            <p class="text-sm text-gray-500">Fecha: {{ s.fecha_solicitud|date:"d/m/Y H:i" }}</p>
-            <div class="mt-3 flex gap-3">
-              <a href="{% url 'registrar_desde_solicitud' s.id %}"
-                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Registrar ahora</a>
-              <a href="{% url 'rechazar_solicitud' s.id %}"
-                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Rechazar</a>
+          <li class="border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+            <p class="text-lg font-semibold">{{ v.cliente_nombre }}</p>
+            <p class="text-gray-600">{{ v.producto.marca }} {{ v.producto.modelo }}</p>
+            <p class="text-sm text-gray-500"> Cédula: {{ v.cliente_cedula }}</p>
+            <p class="text-sm text-gray-500"> Teléfono: {{ v.cliente_telefono }}</p>
+            <p class="text-xs text-gray-400 mt-2"> Fecha: {{ v.fecha|date:"d/m/Y H:i" }}</p>
+
+            <!-- Botones de acción -->
+            <div class="mt-4 flex gap-3">
+              <a href="{% url 'revisar_solicitud_compra' v.id %}"
+                class="flex-1 text-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                🔍 Revisar
+              </a>
+              <a href="{% url 'facturar_desde_solicitud' v.id %}"
+                class="flex-1 text-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
+                💳 Facturar
+              </a>
             </div>
           </li>
           {% endfor %}
         </ul>
         {% else %}
-        <p class="text-gray-500">No hay solicitudes de registro.</p>
+        <p class="text-gray-500 italic">No hay solicitudes de compra.</p>
+        {% endif %}
+      </div>
+
+      <!-- Solicitudes de registro -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+        <h2 class="text-xl font-semibold text-indigo-600 mb-4 flex items-center gap-2">📝 Solicitudes de Registro</h2>
+        {% if solicitudes_registro %}
+        <ul class="space-y-6">
+          {% for s in solicitudes_registro %}
+          <li class="border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+            <p class="text-lg font-semibold">{{ s.nombres }}</p>
+            <p class="text-gray-600">({{ s.cargo }})</p>
+            <p class="text-sm text-gray-500"> {{ s.tipo_identificacion }} {{ s.numero_identificacion }}</p>
+            <p class="text-sm text-gray-500"> {{ s.correo }}</p>
+            <p class="text-sm text-gray-500"> {{ s.telefono }}</p>
+            <p class="text-xs text-gray-400 mt-2"> Fecha: {{ s.fecha_solicitud|date:"d/m/Y H:i" }}</p>
+
+            <!-- Botones de acción -->
+            <div class="mt-4 flex gap-3">
+              <a href="{% url 'registrar_desde_solicitud' s.id %}"
+                class="flex-1 text-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
+                 Registrar ahora
+              </a>
+              <a href="{% url 'rechazar_solicitud' s.id %}"
+                class="flex-1 text-center bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                 Rechazar
+              </a>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-gray-500 italic">No hay solicitudes de registro.</p>
         {% endif %}
       </div>
 

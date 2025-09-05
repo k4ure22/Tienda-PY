@@ -2,17 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .models import Producto, Usuario, Venta, SolicitudRegistro
+from django.contrib import messages 
+from .models import Producto, Usuario, Venta, SolicitudRegistro, SolicitudCompra
 from .forms import ProductoForm, UsuarioForm, SolicitudRegistroForm, SolicitudCompraForm
 import pandas as pd
-from django.db.models import Q
-import unicodedata
-from django.core.mail import send_mail
-from django.conf import settings
-from django.template.loader import get_template
+from django.db.models import Q 
+import unicodedata 
+from django.core.mail import send_mail 
+from django.conf import settings 
+from django.template.loader import get_template 
 from xhtml2pdf import pisa  
-from django.utils.crypto import get_random_string
+from django.utils.crypto import get_random_string 
 
 
 User = get_user_model()
@@ -228,13 +228,8 @@ def detalle_producto_cliente(request, id):
     return render(request, "core/cliente/det_prod_cliente.html", {"producto": producto})
 
 
-def add_to_cart(request, id):
-    # lógica de añadir al carrito
-    return redirect("index")
 
-def comprar(request, id):
-    # lógica de compra inmediata
-    return redirect("index")
+
 
 # ======================
 # SECCIÓN: ADMIN PRODUCTOS
@@ -338,7 +333,7 @@ def comprar(request, producto_id):
         form = SolicitudCompraForm(request.POST)
         if form.is_valid():
             solicitud = form.save(commit=False)
-            solicitud.producto = producto   # ✅ asignar producto
+            solicitud.producto = producto 
             solicitud.save()
 
             # Enviar correo al admin
@@ -423,6 +418,11 @@ def factura_pdf(request, producto_id):
 
     return response
 
+
+
+def revisar_solicitud_compra(request, solicitud_id):
+    solicitud = get_object_or_404(SolicitudCompra, id=solicitud_id)
+    return render(request, "core/admin/revisar_solicitud.html", {"solicitud": solicitud})
 
 # ======================
 # UTILIDADES

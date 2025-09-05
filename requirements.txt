@@ -5,3 +5,4 @@ xhtml2pdf>=0.2.10
 reportlab>=3.6.12
 Pillow>=10.0.0
 pymysql>=1.1.2
+django-widget-tweaks
