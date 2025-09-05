@@ -10,6 +10,7 @@ def crear_admin_defecto(sender, **kwargs):
         # Crear superuser
         admin = Usuario.objects.create_superuser(
             nombre="Administrador",
+            username="admin",
             email="martinmh0722@gmail.com",
             password="admin123"
         )
