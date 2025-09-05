@@ -62,7 +62,17 @@ class ImagenProducto(models.Model):
 
 class SolicitudRegistro(models.Model):
     nombres = models.CharField(max_length=150)
-    tipo_identificacion = models.CharField(max_length=20)
+    TIPO_IDENTIFICACION_CHOICES = [
+        ("CC", "Cédula de ciudadanía"),
+        ("TI", "Tarjeta de identidad"),
+        ("CE", "Cédula de extranjería"),
+    ]
+
+    tipo_identificacion = models.CharField(
+        max_length=2,
+        choices=TIPO_IDENTIFICACION_CHOICES,
+        default="CC"
+        )    
     numero_identificacion = models.CharField(max_length=50)
     edad = models.IntegerField()
     direccion = models.CharField(max_length=255)
