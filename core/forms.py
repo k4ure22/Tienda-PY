@@ -57,7 +57,7 @@ class SolicitudRegistroForm(forms.ModelForm):
         model = SolicitudRegistro
         fields = [
             "nombres", "tipo_identificacion", "numero_identificacion",
-            "edad", "direccion", "correo", "telefono", "cargo"
+            "edad", "direccion", "telefono", "cargo"
         ]
         widgets = {
             "nombres": forms.TextInput(attrs={"class": base_input}),
@@ -67,6 +67,7 @@ class SolicitudRegistroForm(forms.ModelForm):
             "direccion": forms.TextInput(attrs={"class": base_input}),
             "correo": forms.EmailInput(attrs={"class": base_input}),
             "telefono": forms.TextInput(attrs={"class": base_input}),
+            
         }
 
 

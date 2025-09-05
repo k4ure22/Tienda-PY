@@ -119,7 +119,7 @@ def registrar_desde_solicitud(request, solicitud_id):
         email=solicitud.correo,
         telefono=solicitud.telefono,
         direccion=solicitud.direccion,
-        cargo=solicitud.cargo,
+        cargo="admin",
     )
 
    
