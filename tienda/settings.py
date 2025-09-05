@@ -21,7 +21,13 @@ SECRET_KEY = 'django-insecure-fl8*n7z&+j2#e#n^&#mmda@3vq%xv4)avy5+@d#(0(*mh@xlz*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kaure.pythonanywhere.com', 'www.kaure.pythonanywhere.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'kaure.pythonanywhere.com',
+    'www.kaure.pythonanywhere.com',
+    'localhost',
+    '127.0.0.1',
+]
+
 
 
 
