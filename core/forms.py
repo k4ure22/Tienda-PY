@@ -61,13 +61,12 @@ class SolicitudRegistroForm(forms.ModelForm):
         ]
         widgets = {
             "nombres": forms.TextInput(attrs={"class": base_input}),
-            "tipo_identificacion": forms.Select(attrs={"class": base_input}),  # ✅ mantiene el select estilizado
+            "tipo_identificacion": forms.Select(attrs={"class": base_input}),  
             "numero_identificacion": forms.TextInput(attrs={"class": base_input}),
             "edad": forms.NumberInput(attrs={"class": base_input}),
             "direccion": forms.TextInput(attrs={"class": base_input}),
             "correo": forms.EmailInput(attrs={"class": base_input}),
             "telefono": forms.TextInput(attrs={"class": base_input}),
-            "cargo": forms.Select(attrs={"class": base_input}),
         }
 
 
