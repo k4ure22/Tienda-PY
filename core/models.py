@@ -6,31 +6,27 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager, Permission
 class Usuario(AbstractUser):
     nombre = models.CharField(max_length=100)
     edad = models.PositiveIntegerField(null=True, blank=True)
-    cargo = models.CharField(max_length=100)
+    CARGO_CHOICES = [
+        ("cliente", "Cliente"),
+        ("admin", "Administrador"),
+    ]
+    cargo = models.CharField(max_length=20, choices=CARGO_CHOICES, default="cliente")    
     email = models.EmailField(unique=True)
     direccion = models.CharField(max_length=255, blank=True, null=True)
     telefono = models.CharField(max_length=20, blank=True, null=True)
     foto_perfil = models.ImageField(
-    upload_to="fotos_perfil/",
-    blank=True,
-    null=True,
-    default="usuarios/perfil.png"   
-)
-
-
+        upload_to="fotos_perfil/",
+        blank=True,
+        null=True,
+        default="usuarios/perfil.png"
+    )
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'nombre']
+    REQUIRED_FIELDS = ['username', 'nombre']   # 👈 Django te pedirá username igual
 
     def __str__(self):
         return self.email
 
-
-class Categoria(models.Model):
-    nombre = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.nombre
 
 
 class Producto(models.Model):
@@ -85,6 +81,16 @@ class SolicitudCompra(models.Model):
     cliente_telefono = models.CharField(max_length=20)
     cliente_direccion = models.CharField(max_length=255)
     cliente_correo = models.EmailField()
+    metodo_pago = models.CharField(
+        max_length=50,
+        choices=[
+            ("tarjeta_credito", "Tarjeta de Crédito"),
+            ("tarjeta_debito", "Tarjeta de Débito"),
+            ("transferencia", "Transferencia Bancaria"),
+            ("efectivo", "Efectivo"),
+        ],
+        default="tarjeta_credito"
+    )
     fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

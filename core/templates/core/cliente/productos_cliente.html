@@ -1,0 +1,116 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Productos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fuente Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow-md">
+    <div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+      <!-- Izquierda -->
+      <div class="flex items-center gap-6">
+        <h2 class="text-2xl font-bold text-indigo-600 tracking-tight">Computadores</h2>
+
+        <form action="{% url 'productos_cliente' %}" method="get" 
+              class="flex items-center bg-gray-100 rounded-full px-4 py-2 shadow-inner">
+          <input 
+            type="text" 
+            name="q" 
+            placeholder="Buscar productos..." 
+            value="{{ query|default_if_none:'' }}" 
+            class="bg-transparent outline-none text-sm flex-1"
+          >
+          <button type="submit" class="text-gray-600 hover:text-indigo-600 transition">🔍</button>
+        </form>
+      </div>
+
+      <!-- Centro -->
+      <div class="hidden md:block text-lg font-semibold text-gray-700">
+        Productos
+      </div>
+
+      <!-- Derecha -->
+      {% if request.user.is_authenticated %}
+          <a href="{% url 'perfil_usuario' request.user.id %}" 
+             class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full hover:bg-gray-200 transition">
+            {% if request.user.foto_perfil %}
+              <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" 
+                   class="w-9 h-9 rounded-full object-cover shadow">
+            {% else %}
+              <img src="{% static 'core/img/default-user.png' %}" alt="Foto de perfil" 
+                   class="w-9 h-9 rounded-full object-cover shadow">
+            {% endif %}
+            <span class="text-sm font-medium">{{ request.user.nombre|default:request.user.email }}</span>
+          </a>
+          <a href="{% url 'logout' %}" 
+             class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition font-medium">
+            Cerrar sesión
+          </a>
+        {% else %}
+          <a href="{% url 'login' %}" 
+             class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium shadow">
+            Iniciar sesión
+          </a>
+        {% endif %}
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto px-6 py-10">
+    <h1 class="text-3xl font-bold text-gray-900 mb-10">Productos</h1>
+
+    <section>
+      {% regroup productos by marca as productos_por_marca %}
+
+      {% for grupo in productos_por_marca %}
+        <h2 class="text-2xl font-semibold text-gray-800 mt-12 mb-6 border-b pb-2">{{ grupo.grouper }}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {% for producto in grupo.list %}
+            <a href="{% url 'det_prod_cliente' producto.id %}" 
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 flex flex-col group relative overflow-hidden">
+              
+              <!-- Imagen -->
+              {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}" 
+                     class="h-44 w-full object-contain mb-4 transition group-hover:scale-105 duration-300">
+              {% else %}
+                <img src="{% static 'core/img/default.png' %}" alt="Sin imagen" 
+                     class="h-44 w-full object-contain mb-4 transition group-hover:scale-105 duration-300">
+              {% endif %}
+
+              <!-- Info -->
+              <h2 class="text-lg font-semibold text-gray-900 group-hover:text-indigo-600 transition">
+                {{ producto.marca }} {{ producto.modelo }}
+              </h2>
+              <p class="text-indigo-600 font-bold text-xl my-2">${{ producto.precio|intcomma }}</p>
+              <p class="text-sm text-gray-600">
+                <strong>Almacenamiento:</strong> {{ producto.almacenamiento }} &nbsp;|&nbsp; 
+                <strong>RAM:</strong> {{ producto.ram }}
+              </p>
+              <p class="text-sm text-gray-600"><strong>Procesador:</strong> {{ producto.procesador }}</p>
+              <p class="text-xs text-gray-500 mt-2"><strong>Serial:</strong> {{ producto.serial }}</p>
+
+              <!-- Botón flotante -->
+              <button class="absolute top-4 right-4 bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-full shadow hover:bg-indigo-700 transition">
+                Ver más
+              </button>
+            </a>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </section>
+  </main>
+</body>
+</html>

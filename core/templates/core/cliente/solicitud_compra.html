@@ -1,42 +1,72 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <title>Solicitud de Compra</title>
-  <link rel="stylesheet" href="{% static 'core/solicompra.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center font-sans">
 
-<body>
-  <div class="form-container">
-    <h1>Solicitud de compra</h1>
-    <h2>{{ producto.marca }} {{ producto.modelo }}</h2>
+  <div class="bg-white shadow-lg rounded-2xl w-full max-w-2xl p-8">
+    <h1 class="text-3xl font-bold text-gray-900 text-center mb-6">Solicitud de Compra</h1>
 
-    <form method="post" class="form">
+    <!-- Producto -->
+    <div class="bg-gray-100 p-4 rounded-lg mb-6 flex items-center justify-between">
+      <div>
+        <h2 class="text-xl font-semibold">{{ producto.marca }} {{ producto.modelo }}</h2>
+        <p class="text-gray-600">${{ producto.precio }}</p>
+      </div>
+      {% if producto.imagen %}
+        <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }}" class="w-20 h-20 object-cover rounded-lg shadow">
+      {% endif %}
+    </div>
+
+    <form method="post" class="space-y-5">
       {% csrf_token %}
-      <p>
-        {{ form.nombre.label_tag }}
-        {{ form.nombre }}
-      </p>
-      <p>
-        {{ form.cedula.label_tag }}
-        {{ form.cedula }}
-      </p>
-      <p>
-        {{ form.telefono.label_tag }}
-        {{ form.telefono }}
-      </p>
-      <p>
-        {{ form.direccion.label_tag }}
-        {{ form.direccion }}
-      </p>
-      <button type="submit" class="btn">Confirmar compra</button>
+
+      <!-- Renderizar campos -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Nombre completo</label>
+        {{ form.cliente_nombre }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Cédula</label>
+        {{ form.cliente_cedula }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Teléfono</label>
+        {{ form.cliente_telefono }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Dirección</label>
+        {{ form.cliente_direccion }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+        {{ form.cliente_correo }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Método de pago</label>
+        {{ form.metodo_pago }}
+      </div>
+
+      <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-xl font-semibold shadow-md hover:bg-blue-700 transition">
+        Confirmar compra
+      </button>
     </form>
 
-    <p class="back-text">¿Quieres regresar?</p>
-    <a href="{% url 'det_prod_cliente' producto.id %}" class="back-link">⬅ Volver al producto</a>
+    <div class="text-center mt-6">
+      <a href="{% url 'det_prod_cliente' producto.id %}" class="text-blue-600 hover:underline">
+        ⬅ Volver al producto
+      </a>
+    </div>
   </div>
 </body>
-
 </html>

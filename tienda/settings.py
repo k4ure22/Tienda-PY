@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'django.contrib.humanize',
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [

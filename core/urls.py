@@ -18,6 +18,8 @@ urlpatterns = [
     path("carrito/add/<int:id>/", views.add_to_cart, name="add_to_cart"),
     path("cliente/producto/<int:id>/", views.detalle_producto_cliente, name="det_prod_cliente"),
     path("factura_pdf/<int:producto_id>/", views.factura_pdf, name="factura_pdf"),
+    path("productos/cliente/", views.productos_cliente, name="productos_cliente"),
+
 
     # Admin - productos 
     path("productos/", views.productos, name="productos"),

@@ -1,88 +1,99 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <title>Perfil de Usuario</title>
-  <link rel="stylesheet" href="{% static 'core/general.css' %}">
-  <link rel="stylesheet" href="{% static 'core/perfil.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-  <header class="topbar">
-    <div class="topbar-left">
-      <h2 class="topbar-logo">Computadores</h2>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen font-sans">
 
-      <form action="{% url 'productos' %}" method="get" class="topbar-search">
-        <input type="text" name="q" placeholder="Buscar productos..." value="{{ query|default_if_none:'' }}">
-        <button type="submit">🔍</button>
+  <!-- 🔹 Topbar -->
+  <header class="bg-white shadow-lg px-6 py-4 flex justify-between items-center sticky top-0 z-10 rounded-b-2xl">
+    <div class="flex items-center gap-6">
+      <h2 class="text-2xl font-bold text-indigo-600">Computadores</h2>
+
+      <form action="{% url 'productos' %}" method="get" class="flex items-center border border-gray-300 rounded-full shadow-sm overflow-hidden bg-gray-50">
+        <input type="text" 
+               name="q" 
+               placeholder="Buscar productos..." 
+               value="{{ query|default_if_none:'' }}"
+               class="px-4 py-2 outline-none text-gray-600 bg-transparent w-64 focus:ring-0">
+        <button type="submit" class="bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-2 text-white font-medium hover:opacity-90 transition">🔍</button>
       </form>
     </div>
 
-    <div class="topbar-center">
-      <span class="topbar-title">Productos</span>
-    </div>
+    <span class="text-lg font-semibold text-gray-700 hidden md:block">Productos</span>
 
-    <div class="topbar-right">
-      <a href="{% url 'solicitudes' %}" class="icon-btn" title="Notificaciones">🔔</a>
-
+    <div class="flex items-center gap-4">
       {% if request.user.is_authenticated %}
-      <a href="{% url 'perfil_usuario' request.user.id %}" class="user-chip">
+      <a href="{% url 'perfil_usuario' request.user.id %}" class="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-full hover:bg-gray-200 transition shadow">
         {% if request.user.foto_perfil %}
-        <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="avatar">
+        <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="w-10 h-10 rounded-full object-cover border-2 border-indigo-500">
         {% else %}
-        <img src="{% static 'core/img/default.png' %}" alt="Sin imagen"> {% endif %}
-        <span class="user-name">{{ request.user.nombre|default:request.user.email }}</span>
+        <img src="{% static 'core/img/default.png' %}" alt="Sin imagen" class="w-10 h-10 rounded-full object-cover border-2 border-indigo-500">
+        {% endif %}
+        <span class="font-medium text-gray-700">{{ request.user.nombre|default:request.user.email }}</span>
       </a>
-      <a href="{% url 'logout' %}" class="pill pill-red">Cerrar sesión</a>
+      <a href="{% url 'logout' %}" class="px-4 py-2 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-lg shadow hover:opacity-90 transition">Cerrar sesión</a>
       {% else %}
-      <a href="{% url 'login' %}" class="pill">Iniciar sesión</a>
+      <a href="{% url 'login' %}" class="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg shadow hover:opacity-90 transition">Iniciar sesión</a>
       {% endif %}
     </div>
   </header>
 
+  <!-- 🔹 Botón volver -->
+  <div class="px-6 mt-6">
+    <a href="{% url 'productos' %}" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-600 rounded-lg shadow hover:bg-gray-200 transition">
+       Volver
+    </a>
+  </div>
 
-<a href="{% url 'productos' %}" class="btn-volver">⬅ Volver</a>
-  <div class="perfil-container">
+  <!-- 🔹 Contenedor del perfil -->
+  <main class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl mt-10 p-10 border border-gray-200">
+    <h1 class="text-4xl font-extrabold text-center bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-10">
+      Perfil de {{ usuario.nombre }}
+    </h1>
 
-    <h1 class="perfil-titulo">Perfil de {{ usuario.nombre }}</h1>
-
-    <div class="perfil-foto">
+    <!-- Foto de perfil -->
+    <div class="flex justify-center mb-8">
       {% if usuario.foto_perfil and usuario.foto_perfil.name %}
-      <img src="{{ usuario.foto_perfil.url }}" alt="Foto de perfil de {{ usuario.nombre }}">
+      <img src="{{ usuario.foto_perfil.url }}" alt="Foto de perfil de {{ usuario.nombre }}" class="w-40 h-40 rounded-full object-cover shadow-2xl border-4 border-indigo-500 hover:scale-105 transition transform">
       {% else %}
-      <img src="{% static 'core/img/default.png' %}" alt="Sin imagen">
+      <img src="{% static 'core/img/default.png' %}" alt="Sin imagen" class="w-40 h-40 rounded-full object-cover shadow-2xl border-4 border-indigo-500 hover:scale-105 transition transform">
       {% endif %}
     </div>
 
-    <!-- Información del usuario -->
-    <div class="perfil-info">
-      <p class="perfil-item">
-        <span class="perfil-label">Nombre:</span>
-        <span class="perfil-valor">{{ usuario.nombre }}</span>
-        <a href="#" class="perfil-editar">✏️</a>
-      </p>
+    <!-- Formulario -->
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+      {% csrf_token %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for field in form %}
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              <p class="text-red-500 text-sm mt-1">{{ field.errors|join:", " }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
 
-      <p class="perfil-item">
-        <span class="perfil-label">Edad:</span>
-        <span class="perfil-valor">{{ usuario.edad }}</span>
-        <a href="#" class="perfil-editar">✏️</a>
-      </p>
+      <div class="flex justify-between mt-8">
+        <button type="submit" name="editar"
+          class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold rounded-xl shadow-lg hover:opacity-90 transition transform hover:scale-105">
+           Guardar cambios
+        </button>
 
-      <p class="perfil-item">
-        <span class="perfil-label">Cargo:</span>
-        <span class="perfil-valor">{{ usuario.cargo }}</span>
-        <a href="#" class="perfil-editar">✏️</a>
-      </p>
+        <button type="submit" name="eliminar"
+          class="px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold rounded-xl shadow-lg hover:opacity-90 transition transform hover:scale-105"
+          onclick="return confirm('¿Seguro que quieres eliminar tu cuenta? Esta acción no se puede deshacer.')">
+           Eliminar cuenta
+        </button>
+      </div>
+    </form>
+  </main>
 
-      <p class="perfil-item">
-        <span class="perfil-label">Correo:</span>
-        <span class="perfil-valor">{{ usuario.email }}</span>
-        <a href="#" class="perfil-editar">✏️</a>
-      </p>
-    </div>
-  </div>
 </body>
-
 </html>

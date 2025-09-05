@@ -2,24 +2,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Usuario</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <header>
-    <h1>Registro de Usuario</h1>
-  </header>
-  <main>
-    <form action="{% url 'registro' %}" method="post" enctype="multipart/form-data">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+    <header class="text-center mb-6">
+      <h1 class="text-2xl font-bold text-gray-800">Registro de Usuario</h1>
+    </header>
+
+    <form action="{% url 'registro' %}" method="post" enctype="multipart/form-data" class="space-y-5">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Registrar</button>
+
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ field.label }}
+          </label>
+          {{ field }}
+          {% if form.is_bound and field.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ field.errors|striptags }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit"
+        class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
+        Registrar
+      </button>
     </form>
 
-    <p>¿Ya tienes una cuenta? 
-      <a href="{% url 'login' %}">Inicia sesión aquí</a>
+    <p class="mt-6 text-center text-sm text-gray-600">
+      ¿Ya tienes una cuenta? 
+      <a href="{% url 'login' %}" class="text-blue-600 font-semibold hover:underline">Inicia sesión aquí</a>
     </p>
-  </main>
+     <p class="mt-6 text-center text-sm text-gray-600">
+      ¿Trabajas con nosotros? 
+      <a href="{% url 'solicitar_registro' %}" class="text-blue-600 font-semibold hover:underline">Solicita tu cuenta</a>
+    </p>
+  </div>
 </body>
 </html>

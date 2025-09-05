@@ -28,7 +28,10 @@ def home(request):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect("productos") 
+            if user.cargo == "admin":
+                return redirect("productos")  # vista de admin
+            else:
+                return redirect("productos_cliente")  # vista de cliente
         else:
             return render(
                 request,    
@@ -36,8 +39,8 @@ def home(request):
                 {"error": "Credenciales inválidas"}
             )
 
-    
     return render(request, "core/usuario/inises.html")
+
 
 
 
@@ -45,11 +48,18 @@ def registro(request):
     if request.method == "POST":
         form = UsuarioForm(request.POST, request.FILES)
         if form.is_valid():
-            usuario = form.save()
-            login(request, usuario) 
-            return redirect("perfil_usuario", id=usuario.id)
+            usuario = form.save(commit=False)
+            cargo = form.cleaned_data.get("cargo")
+
+            if cargo == "admin":
+                return render(request, "core/usuario/solicitar_registro.html", {"form": form})
+            else:
+                usuario.save()
+                login(request, usuario)
+                return redirect("productos_cliente")
     else:
         form = UsuarioForm()
+
     return render(request, "core/usuario/registro.html", {"form": form})
 
 def logout_usuario(request):
@@ -138,7 +148,33 @@ def rechazar_solicitud(request, solicitud_id):
         return redirect("solicitudes")
 
     return render(request, "core/admin/rechazar_confirmar.html", {"solicitud": solicitud})
+@login_required
+def perfil_usuario(request, id):
+    usuario = get_object_or_404(Usuario, id=id)
 
+    if request.method == "POST":
+        if "eliminar" in request.POST:
+            usuario.delete()
+            messages.success(request, "Tu cuenta ha sido eliminada.")
+            return redirect("login")
+
+        form = UsuarioForm(request.POST, request.FILES, instance=usuario)
+        if form.is_valid():
+            # Si no quiere cambiar contraseña, no la sobreescribimos
+            if not form.cleaned_data["password"]:
+                form.instance.password = usuario.password
+            else:
+                form.instance.set_password(form.cleaned_data["password"])
+            form.save()
+            messages.success(request, "Perfil actualizado correctamente.")
+            return redirect("perfil_usuario", id=usuario.id)
+    else:
+        form = UsuarioForm(instance=usuario)
+
+    return render(request, "core/usuario/perfil_usuario.html", {
+        "usuario": usuario,
+        "form": form
+    })
 
 # ======================
 # SECCIÓN: CLIENTE
@@ -163,6 +199,29 @@ def index(request):
         ]
 
     return render(request, "core/cliente/index.html", {"productos": productos, "query": query})
+
+
+def productos_cliente(request):
+    query = request.GET.get("q")
+    productos = Producto.objects.all().order_by("marca")
+
+    if query:
+        q = normalize_text(query)
+        productos = [
+            p for p in productos if
+            q in normalize_text(p.marca) or
+            q in normalize_text(p.modelo) or
+            q in normalize_text(p.almacenamiento) or
+            q in normalize_text(p.ram) or
+            q in normalize_text(p.procesador) or
+            q in normalize_text(p.serial) or
+            q in normalize_text(str(p.precio)) or
+            q in normalize_text(p.color) or
+            q in normalize_text(p.detalles)
+        ]
+
+    return render(request, "core/cliente/productos_cliente.html", {"productos": productos})
+
 
 def detalle_producto_cliente(request, id):
     producto = get_object_or_404(Producto, id=id)
