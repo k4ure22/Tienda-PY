@@ -23,7 +23,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['kaure.pythonanywhere.com', 'www.kaure.pythonanywhere.com']
 
-
+#'kaure.pythonanywhere.com', 'www.kaure.pythonanywhere.com'
 
 # Application definition
 
